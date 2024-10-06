@@ -1,7 +1,25 @@
+using Microsoft.EntityFrameworkCore;
+using TenexCars.DataAccess;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.WithOrigins("http://example.com")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 var app = builder.Build();
 

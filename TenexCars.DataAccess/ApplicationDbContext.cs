@@ -12,15 +12,15 @@ namespace TenexCars.DataAccess
 
         }
 
-        public DbSet<Operator> Operators { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<OperatorMember> OperatorMembers { get; set; }
+        public virtual DbSet<Operator> Operators { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<OperatorMember> OperatorMembers { get; set; }
 
-        public DbSet<Co_SubscriberInvitee> Co_SubscriberInvitees { get; set; }
-        public DbSet<Subscriber> Subscribers { get; set; }
-        public DbSet<Subscription> Subscriptions{ get; set; }
-        public DbSet<Vehicle> Vehicles { get; set; }
-        public DbSet<VehicleRequest> VehicleRequests { get; set; }
+        public virtual DbSet<Co_SubscriberInvitee> Co_SubscriberInvitees { get; set; }
+        public virtual DbSet<Subscriber> Subscribers { get; set; }
+        public virtual DbSet<Subscription> Subscriptions{ get; set; }
+        public virtual DbSet<Vehicle> Vehicles { get; set; }
+        public virtual DbSet<VehicleRequest> VehicleRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
