@@ -9,14 +9,19 @@ namespace TenexCars.Services
     public class PhotoService
     {
         private readonly Cloudinary _cloudinary;
+        //private readonly ApplicationDbContext _context;
 
-        public PhotoService(IOptions<CloudinarySettings> config)
+        public PhotoService(IOptions<CloudinarySettings> config, ApplicationDbContext context)
         {
-            var acc = new Account( config.Value.CloudName, config.Value.ApiKey, config.Value.ApiSecret );
+            var acc = new Account
+            (
+                config.Value.CloudName,
+                config.Value.ApiKey,
+                config.Value.ApiSecret
+            );
 
             _cloudinary = new Cloudinary(acc);
         }
-
         public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
         {
             var uploadResult = new ImageUploadResult();
