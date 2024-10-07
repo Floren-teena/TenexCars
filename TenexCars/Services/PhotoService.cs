@@ -3,10 +3,11 @@ using CloudinaryDotNet;
 using Microsoft.Extensions.Options;
 using TenexCars.DataAccess;
 using TenexCars.Helper;
+using TenexCars.Interfaces;
 
 namespace TenexCars.Services
 {
-    public class PhotoService
+    public class PhotoService : IPhotoService
     {
         private readonly Cloudinary _cloudinary;
         //private readonly ApplicationDbContext _context;
