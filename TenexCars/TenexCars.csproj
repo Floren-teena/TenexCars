@@ -31,4 +31,8 @@
     <ProjectReference Include="..\TenexCars.DataAccess\TenexCars.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Serilog_logs\" />
+  </ItemGroup>
+
 </Project>

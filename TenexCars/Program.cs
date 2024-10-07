@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 using TenexCars.DataAccess;
 using TenexCars.Helper;
@@ -8,6 +9,17 @@ using TenexCars.Interfaces;
 using TenexCars.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Serilog
+var configuration = builder.Configuration;
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File("serilog_logs\\Serilog.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog(); // Use Serilog as the logging provider
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
