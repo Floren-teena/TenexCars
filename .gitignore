@@ -7,7 +7,7 @@
 *.nuspec
 packages/
 
-# Azure Web App Publish folder
+# Publish folder
 publish/
 
 # Visual Studio settings
@@ -31,3 +31,7 @@ publish/
 *.bak
 *.tmp
 *.temp
+
+# Ignore build outputs
+bin/
+obj/
