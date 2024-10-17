@@ -32,7 +32,7 @@ namespace TenexCars.Controllers
             return View();
         }
 
-        [HttpPost]
+        /*[HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginDto loginVm)
@@ -63,7 +63,7 @@ namespace TenexCars.Controllers
                     _logger.LogInformation("Redirecting to Complete Reservation Page ...");
                     return RedirectToAction("CompleteReservation", "Subscriber");
 
-                    /*var subscriber = await _subscriberRepository.GetSubscriberByUserId(user.Id);
+                    *//*var subscriber = await _subscriberRepository.GetSubscriberByUserId(user.Id);
 
                     var subscription = subscriber is not null ? await _subscriptionRepository.GetSubscriptionBySubcriber(subscriber.Id) : null;
                     if (subscription is not null && subscription.SubscriptionStatus == SubscriptionStatus.DLNeeded)
@@ -72,7 +72,7 @@ namespace TenexCars.Controllers
                         return RedirectToAction("CompleteReservation", "Subscriber");
                     }
                     _logger.LogInformation("Redirecting to Subscriber page");
-                    return RedirectToAction("Profile", "Subscriber");*/
+                    return RedirectToAction("Profile", "Subscriber");*//*
                 }
                 else if (roles.Contains("Main_Operator"))
                 {
@@ -101,6 +101,6 @@ namespace TenexCars.Controllers
             _logger.LogWarning("Invalid login attempt for user: {Email}", loginVm.Username);
             TempData["Error"] = "Invalid credentials";
             return View(loginVm);
-        }
+        }*/
     }
 }

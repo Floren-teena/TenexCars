@@ -5,6 +5,98 @@
       "PackagePath": "staticwebassets\\TenexCars.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\alicesmithlogo.png",
+      "PackagePath": "staticwebassets\\Assets\\alicesmithlogo.png"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\avatar3.jpg",
+      "PackagePath": "staticwebassets\\Assets\\avatar3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\car.jpg",
+      "PackagePath": "staticwebassets\\Assets\\car.jpg"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\car1.jpg",
+      "PackagePath": "staticwebassets\\Assets\\car1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\chime.jpg",
+      "PackagePath": "staticwebassets\\Assets\\chime.jpg"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\hand-car.jpg",
+      "PackagePath": "staticwebassets\\Assets\\hand-car.jpg"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\ig1.jpg",
+      "PackagePath": "staticwebassets\\Assets\\ig1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\ig2.jpg",
+      "PackagePath": "staticwebassets\\Assets\\ig2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\ig5.jpg",
+      "PackagePath": "staticwebassets\\Assets\\ig5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\img-2-3x-img-2-3x.png",
+      "PackagePath": "staticwebassets\\Assets\\img-2-3x-img-2-3x.png"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\johnbergkamplogo.png",
+      "PackagePath": "staticwebassets\\Assets\\johnbergkamplogo.png"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\logo.png",
+      "PackagePath": "staticwebassets\\Assets\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\logo2.png",
+      "PackagePath": "staticwebassets\\Assets\\logo2.png"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\soba.jpg",
+      "PackagePath": "staticwebassets\\Assets\\soba.jpg"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\v1.png",
+      "PackagePath": "staticwebassets\\Assets\\v1.png"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\v2.png",
+      "PackagePath": "staticwebassets\\Assets\\v2.png"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\v3.png",
+      "PackagePath": "staticwebassets\\Assets\\v3.png"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\v5.png",
+      "PackagePath": "staticwebassets\\Assets\\v5.png"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\v6.png",
+      "PackagePath": "staticwebassets\\Assets\\v6.png"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\work1.jpg",
+      "PackagePath": "staticwebassets\\Assets\\work1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\work2.jpg",
+      "PackagePath": "staticwebassets\\Assets\\work2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\work3.jpg",
+      "PackagePath": "staticwebassets\\Assets\\work3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\Assets\\work4.jpg",
+      "PackagePath": "staticwebassets\\Assets\\work4.jpg"
+    },
+    {
       "Id": "C:\\Users\\user\\Documents\\Visual Studio 2022\\Programs\\TenexCars\\TenexCars\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
