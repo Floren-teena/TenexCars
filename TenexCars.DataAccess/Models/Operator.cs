@@ -30,7 +30,7 @@ namespace TenexCars.DataAccess.Models
         public string? SupportContact1 { get; set; }
         public string? SupportContact2 { get; set; }
 
-        public IList<Vehicle> Vehicles { get; set; }
+        public IList<Vehicle>? Vehicles { get; set; }
         public string? AppUserId { get; set; }
         public AppUser? AppUser { get; set; }
 

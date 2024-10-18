@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TenexCars.DataAccess.Repositories.Interfaces
 {
-    public interface IOperatorRepository
+    public interface IVehicleRepository
     {
     }
 }

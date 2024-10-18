@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TenexCars.DataAccess.Repositories.Interfaces
+namespace TenexCars.DataAccess.Repositories.Implementations
 {
-    public interface IOperatorRepository
+    public class VehicleRepository
     {
     }
 }
