@@ -91,6 +91,8 @@ namespace TenexCars.DataAccess
 
                 await _userManager.CreateAsync(operatorUser3, "199026_Ll");
                 await _userManager.AddToRoleAsync(operatorUser3, "Main_Operator");
+
+
             }
         }
     }
