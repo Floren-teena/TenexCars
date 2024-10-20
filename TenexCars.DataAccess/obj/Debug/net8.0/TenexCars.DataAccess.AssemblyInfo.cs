@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TenexCars.DataAccess")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+966c16fd3e50b8bd1030cee242e302e9a25f7ab6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f42a966fea469e61c3b05e2261195cd78116d892")]
 [assembly: System.Reflection.AssemblyProductAttribute("TenexCars.DataAccess")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TenexCars.DataAccess")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

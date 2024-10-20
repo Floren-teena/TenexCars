@@ -36,6 +36,6 @@ namespace TenexCars.DataAccess.Models
 
         public List<Transaction>? Transactions { get; set; }
 
-        //public string Email { get; set; }
+        public string Email { get; set; }
     }
 }

@@ -12,7 +12,7 @@ using TenexCars.DataAccess;
 namespace TenexCars.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241006104136_InitialMigration")]
+    [Migration("20241020121336_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

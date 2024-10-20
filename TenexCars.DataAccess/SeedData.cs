@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +18,21 @@ namespace TenexCars.DataAccess
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IOperatorRepository _operatorRepository;
         private readonly IVehicleRepository _vehicleRepository;
+        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly ILogger<SeedData> _logger;
+
+        //private readonly ISubscriberRepository _subscriberRepository;
 
         public SeedData(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IOperatorRepository operatorRepository,
-                        IVehicleRepository vehicleRepository)
+                        IVehicleRepository vehicleRepository, ApplicationDbContext applicationDbContext, ILogger<SeedData> logger)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _operatorRepository = operatorRepository;
             _vehicleRepository = vehicleRepository;
+            _applicationDbContext = applicationDbContext;
+            _logger = logger;
+            // _subscriberRepository = subscriberRepository;
         }
 
         public async Task SeedAsync()
@@ -94,10 +102,10 @@ namespace TenexCars.DataAccess
                 await _userManager.AddToRoleAsync(operatorUser3, "Main_Operator");
 
                  var firstOperator = new Operator
-                {
+                 {
                     FirstName = "Alice",
                     LastName = "Smith",
-                    Email = operatorUser.Email,
+                    Email = "alice.smith@example.com",
                     PhoneNumber = "987-654-3210",
                     CompanyName = "Alice Smith Cars",
                     CompanyAddress = "456 Oak St",
@@ -738,6 +746,21 @@ namespace TenexCars.DataAccess
 
                 await _vehicleRepository.AddVehicleAsync(vehicle9);
             }
+
+            if (!users.Any(u => _userManager.IsInRoleAsync(u, "Main_Subscriber").Result))
+            {
+                var subscriberUser2 = new AppUser
+                {
+                    UserName = "subscriberprime4@mailinator.com",
+                    Email = "subscriberprime4@mailinator.com",
+                    FirstName = "Subscriber",
+                    LastName = "Prime4",
+                    Type = "Main_Subscriber"
+                };
+                await _userManager.CreateAsync(subscriberUser2, "199026_Ll");
+                await _userManager.AddToRoleAsync(subscriberUser2, "Main_Subscriber");
+            }
+
         }
     }
 }

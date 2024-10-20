@@ -41,10 +41,6 @@ namespace TenexCars.DataAccess
                 .WithMany(v => v.Transactions)
                 .HasForeignKey(t => t.VehicleId);
 
-           /* modelBuilder.Entity<Operator>()
-            .HasMany(o => o.AppUsers)
-            .WithOne(a => a.Operator)
-            .HasForeignKey(a => a.OperatorId);*/
         }
     }
 }

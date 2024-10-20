@@ -188,9 +188,9 @@ namespace TenexCars.DataAccess.Migrations
                     SupportContact2 = table.Column<string>(type: "text", nullable: true),
                     AppUserId = table.Column<string>(type: "text", nullable: true),
                     AppUserId1 = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false)
+                    LastName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
