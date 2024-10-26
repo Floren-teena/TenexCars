@@ -39,5 +39,4 @@ TenexCars.DataAccess/bin/
 TenexCars.DataAccess/obj/
 
 # Ignore Serilog log files
-*.log
-Logs/
+TenexCars/Serilog_logs/

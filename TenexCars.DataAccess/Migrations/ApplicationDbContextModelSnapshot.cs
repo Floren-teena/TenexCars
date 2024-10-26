@@ -193,9 +193,6 @@ namespace TenexCars.DataAccess.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<string>("OperatorId")
-                        .HasColumnType("text");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
@@ -275,9 +272,6 @@ namespace TenexCars.DataAccess.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("text");
 
-                    b.Property<string>("AppUserId1")
-                        .HasColumnType("text");
-
                     b.Property<string>("BusinessName")
                         .HasColumnType("text");
 
@@ -352,7 +346,7 @@ namespace TenexCars.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId1");
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Operators");
                 });
@@ -509,9 +503,6 @@ namespace TenexCars.DataAccess.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -520,9 +511,6 @@ namespace TenexCars.DataAccess.Migrations
 
                     b.Property<string>("PaymentStatus")
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
@@ -827,7 +815,7 @@ namespace TenexCars.DataAccess.Migrations
                 {
                     b.HasOne("TenexCars.DataAccess.Models.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserId1");
+                        .HasForeignKey("AppUserId");
 
                     b.Navigation("AppUser");
                 });

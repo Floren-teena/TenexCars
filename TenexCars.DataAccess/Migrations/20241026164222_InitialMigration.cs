@@ -34,7 +34,6 @@ namespace TenexCars.DataAccess.Migrations
                     FirstName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
                     Type = table.Column<string>(type: "text", nullable: true),
-                    OperatorId = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -187,17 +186,16 @@ namespace TenexCars.DataAccess.Migrations
                     SupportContact1 = table.Column<string>(type: "text", nullable: true),
                     SupportContact2 = table.Column<string>(type: "text", nullable: true),
                     AppUserId = table.Column<string>(type: "text", nullable: true),
-                    AppUserId1 = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "text", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false)
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Operators", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Operators_AspNetUsers_AppUserId1",
-                        column: x => x.AppUserId1,
+                        name: "FK_Operators_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
@@ -407,8 +405,6 @@ namespace TenexCars.DataAccess.Migrations
                     SubscriberId = table.Column<string>(type: "text", nullable: true),
                     OperatorId = table.Column<string>(type: "text", nullable: true),
                     VehicleId = table.Column<string>(type: "text", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Amount = table.Column<decimal>(type: "numeric", nullable: false),
                     PaymentStatus = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -524,9 +520,9 @@ namespace TenexCars.DataAccess.Migrations
                 column: "OperatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Operators_AppUserId1",
+                name: "IX_Operators_AppUserId",
                 table: "Operators",
-                column: "AppUserId1");
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subscribers_AppUserId",
