@@ -15,8 +15,6 @@ namespace TenexCars.DataAccess.Models
         public Operator? Operator { get; set; }
         public string? VehicleId { get; set; }
         public Vehicle? Vehicle { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
         public decimal Amount { get; set; }
         public string? PaymentStatus { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -26,6 +24,7 @@ namespace TenexCars.DataAccess.Models
         public string? Email { get; set; }
         public bool Status { get; set; }
 
-
+        /*public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }*/
     }
 }

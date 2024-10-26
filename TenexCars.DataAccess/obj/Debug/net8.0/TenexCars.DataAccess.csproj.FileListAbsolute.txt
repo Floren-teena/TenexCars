@@ -13,3 +13,18 @@ C:\Users\user\Documents\Visual Studio 2022\Programs\TenexCars\TenexCars.DataAcce
 C:\Users\user\Documents\Visual Studio 2022\Programs\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\TenexCars.DataAccess.pdb
 C:\Users\user\Documents\Visual Studio 2022\Programs\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\TenexCars.DataAccess.genruntimeconfig.cache
 C:\Users\user\Documents\Visual Studio 2022\Programs\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\ref\TenexCars.DataAccess.dll
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\bin\Debug\net8.0\TenexCars.DataAccess.deps.json
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\bin\Debug\net8.0\TenexCars.DataAccess.runtimeconfig.json
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\bin\Debug\net8.0\TenexCars.DataAccess.dll
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\bin\Debug\net8.0\TenexCars.DataAccess.pdb
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\TenexCars.DataAccess.csproj.AssemblyReference.cache
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\TenexCars.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\TenexCars.DataAccess.AssemblyInfoInputs.cache
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\TenexCars.DataAccess.AssemblyInfo.cs
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\TenexCars.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\TenexCars.DataAccess.sourcelink.json
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\TenexCars.DataAccess.dll
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\refint\TenexCars.DataAccess.dll
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\TenexCars.DataAccess.pdb
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\TenexCars.DataAccess.genruntimeconfig.cache
+C:\Users\HP\Source\Repos\TenexCars\TenexCars.DataAccess\obj\Debug\net8.0\ref\TenexCars.DataAccess.dll

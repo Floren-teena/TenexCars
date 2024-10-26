@@ -25,6 +25,7 @@ namespace TenexCars.DataAccess.Models
         public string? PickUpLocation { get; set; }
         public bool SoftCredit { get; set; } = false;
         public string? SubscriptionStatus { get; set; }
+
         //public StatusActions? Actions { get; set; }
         //public TrackerStatus TrackerStatus { get; set; }
     }
