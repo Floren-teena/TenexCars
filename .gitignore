@@ -35,3 +35,5 @@ publish/
 # Ignore build outputs
 bin/
 obj/
+TenexCars.DataAccess/bin/
+TenexCars.DataAccess/obj/
