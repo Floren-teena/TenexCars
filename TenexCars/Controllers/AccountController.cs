@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TenexCars.DataAccess.Enums;
 using TenexCars.DataAccess.Models;
+using TenexCars.DataAccess.Repositories.Interfaces;
 using TenexCars.DTOs;
 
 namespace TenexCars.Controllers
@@ -12,12 +13,15 @@ namespace TenexCars.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<AccountController> _logger;
+        private readonly ISubscriberRepository _subscriberRepository;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<AccountController> logger)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<AccountController> logger, 
+                                ISubscriberRepository subscriberRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _subscriberRepository = subscriberRepository;
         }
 
         public IActionResult Index()
@@ -32,7 +36,7 @@ namespace TenexCars.Controllers
             return View();
         }
 
-        /*[HttpPost]
+        [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginDto loginVm)
@@ -60,19 +64,16 @@ namespace TenexCars.Controllers
 
                 if (roles.Contains("Main_Subscriber"))
                 {
-                    _logger.LogInformation("Redirecting to Complete Reservation Page ...");
-                    return RedirectToAction("CompleteReservation", "Subscriber");
+                    var subscriber = await _subscriberRepository.GetSubscriberByUserId(user.Id);
 
-                    *//*var subscriber = await _subscriberRepository.GetSubscriberByUserId(user.Id);
-
-                    var subscription = subscriber is not null ? await _subscriptionRepository.GetSubscriptionBySubcriber(subscriber.Id) : null;
+                    /*var subscription = subscriber is not null ? await _subscriptionRepository.GetSubscriptionBySubcriber(subscriber.Id) : null;
                     if (subscription is not null && subscription.SubscriptionStatus == SubscriptionStatus.DLNeeded)
                     {
                         _logger.LogInformation("Redirecting to Complete Reservation Page ...");
                         return RedirectToAction("CompleteReservation", "Subscriber");
-                    }
+                    }*/
                     _logger.LogInformation("Redirecting to Subscriber page");
-                    return RedirectToAction("Profile", "Subscriber");*//*
+                    return RedirectToAction("Profile", "Subscriber");
                 }
                 else if (roles.Contains("Main_Operator"))
                 {
@@ -101,6 +102,6 @@ namespace TenexCars.Controllers
             _logger.LogWarning("Invalid login attempt for user: {Email}", loginVm.Username);
             TempData["Error"] = "Invalid credentials";
             return View(loginVm);
-        }*/
+        }
     }
 }
