@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TenexCars.DataAccess.Models;
+using TenexCars.DataAccess.ViewModels;
 
 namespace TenexCars.DataAccess.Repositories.Interfaces
 {
@@ -11,5 +12,8 @@ namespace TenexCars.DataAccess.Repositories.Interfaces
     {
         Task<Vehicle> AddVehicleAsync(Vehicle vehicle);
         Task<Vehicle?> GetVehicleById(string Id);
+        Task<IEnumerable<Vehicle>> GetAllVehicles();
+        Task<List<Vehicle>> GetAllInActiveVehicles(IEnumerable<Vehicle> vehicles);
+        Task<IEnumerable<Vehicle>> GetAll(QueryObject query);
     }
 }
