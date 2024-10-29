@@ -5,6 +5,7 @@ using TenexCars.DataAccess.Repositories.Implementations;
 using TenexCars.DataAccess.Repositories.Interfaces;
 using TenexCars.DataAccess.ViewModels;
 using TenexCars.Interfaces;
+using TenexCars.Models.ViewModels;
 
 namespace TenexCars.Controllers.Operator_Controller
 {
@@ -141,7 +142,7 @@ namespace TenexCars.Controllers.Operator_Controller
         [HttpGet]
         public async Task<IActionResult> CarDetails(string id)
         {
-           /* if (id == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -188,7 +189,7 @@ namespace TenexCars.Controllers.Operator_Controller
                 TransmissionType = vehicle.TransmissionType,
                 DriveAxleRatio = vehicle.DriveAxleRatio,
                 CarWarrantyOverview = vehicle.CarWarrantyOverview
-            };*/
+            };
             return View();
 
         }

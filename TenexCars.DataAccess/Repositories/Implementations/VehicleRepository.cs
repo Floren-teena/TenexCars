@@ -25,5 +25,10 @@ namespace TenexCars.DataAccess.Repositories.Implementations
 
             return newVehicle.Entity;
         }
+
+        public async Task<Vehicle?> GetVehicleById(string Id)
+        {
+            return await _context.Vehicles.FirstOrDefaultAsync(x => x.Id == Id);
+        }
     }
 }

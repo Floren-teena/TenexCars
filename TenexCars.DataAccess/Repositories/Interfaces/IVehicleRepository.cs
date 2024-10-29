@@ -10,5 +10,6 @@ namespace TenexCars.DataAccess.Repositories.Interfaces
     public interface IVehicleRepository
     {
         Task<Vehicle> AddVehicleAsync(Vehicle vehicle);
+        Task<Vehicle?> GetVehicleById(string Id);
     }
 }
