@@ -138,5 +138,59 @@ namespace TenexCars.Controllers.Operator_Controller
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> CarDetails(string id)
+        {
+           /* if (id == null)
+            {
+                return NotFound();
+            }
+            var vehicle = await _vehicleRepository.GetVehicleById(id);
+
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+            var carDetailsViewModel = new CarDetailsViewModel
+            {
+                Id = vehicle.Id,
+                Make = vehicle.Make,
+                Model = vehicle.Model,
+                MarketValue = vehicle.MarketValue.ToString(),
+                ImageUrl = vehicle.ImageUrl,
+                Color = vehicle.Color,
+                SeatNumbers = vehicle.SeatNumbers,
+                TrunkSize = vehicle.TrunkSize,
+                DcFastCharging = vehicle.DcFastCharging,
+                HomeCharger = vehicle.HomeCharger,
+                RangeOfFullCharge = vehicle.RangeOfFullCharge,
+                CarDescription = vehicle.CarDescription,
+                TouchScreenDisplay = vehicle.TouchScreenDisplay,
+                WheelDrive = vehicle.WheelDrive,
+                DriverLumbarSupport = vehicle.DriverLumbarSupport,
+                SeatHeater = vehicle.SeatHeater,
+                Radio = vehicle.Radio,
+                AndroidAuto_AppleCarPlay = vehicle.AndroidAuto_AppleCarPlay,
+                NumberOfSpeakers = vehicle.NumberOfSpeakers,
+                TouchScreenNavSystem = vehicle.TouchScreenNavSystem,
+                BluetoothSystem = vehicle.BluetoothSystem,
+                ProjectorBeamLedHeadlight = vehicle.ProjectorBeamLedHeadlight,
+                RemoteKeylessEntry = vehicle.RemoteKeylessEntry,
+                StandardLowTirePressureWarning = vehicle.StandardLowTirePressureWarning,
+                Torque = vehicle.Torque,
+                Horsepower = vehicle.Horsepower,
+                EngineType = vehicle.EngineType,
+                DiscBrakes = vehicle.DiscBrakes,
+                StabilityControl = vehicle.StabilityControl,
+                TransmissionSpeed = vehicle.TransmissionSpeed,
+                TurningDiameter = vehicle.TurningDiameter,
+                CurbWeight = vehicle.CurbWeight,
+                TransmissionType = vehicle.TransmissionType,
+                DriveAxleRatio = vehicle.DriveAxleRatio,
+                CarWarrantyOverview = vehicle.CarWarrantyOverview
+            };*/
+            return View();
+
+        }
     }
 }
