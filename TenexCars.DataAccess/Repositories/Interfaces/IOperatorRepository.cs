@@ -10,5 +10,6 @@ namespace TenexCars.DataAccess.Repositories.Interfaces
     public interface IOperatorRepository
     {
         Task<Operator> AddOperatorAsync(Operator member);
+        Task<Operator?> GetOperatorByUserId(string Id);
     }
 }

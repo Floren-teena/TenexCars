@@ -11,17 +11,17 @@ namespace TenexCars.DataAccess.Repositories.Implementations
 {
     public class VehicleRepository : IVehicleRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _context;
 
-        public VehicleRepository(ApplicationDbContext dbContext)
+        public VehicleRepository(ApplicationDbContext context)
         {
-            _dbContext = dbContext;
+            _context = context;
         }
 
         public async Task<Vehicle> AddVehicleAsync(Vehicle vehicle)
         {
-            var newVehicle = await _dbContext.Vehicles.AddAsync(vehicle);
-            await _dbContext.SaveChangesAsync();
+            var newVehicle = await _context.Vehicles.AddAsync(vehicle);
+            await _context.SaveChangesAsync();
 
             return newVehicle.Entity;
         }

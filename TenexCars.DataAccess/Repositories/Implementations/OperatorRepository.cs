@@ -12,21 +12,26 @@ namespace TenexCars.DataAccess.Repositories.Implementations
 {
     public class OperatorRepository : IOperatorRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
 
-        public OperatorRepository(ApplicationDbContext dbContext, UserManager<AppUser> userManager)
+        public OperatorRepository(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
-            _dbContext = dbContext;
+            _context = context;
             _userManager = userManager;
         }
 
         public async Task<Operator> AddOperatorAsync(Operator member)
         {
-            var newlyAdded = await _dbContext.Operators.AddAsync(member);
-            await _dbContext.SaveChangesAsync();
+            var newlyAdded = await _context.Operators.AddAsync(member);
+            await _context.SaveChangesAsync();
 
             return newlyAdded.Entity;
+        }
+
+        public async Task<Operator?> GetOperatorByUserId(string Id)
+        {
+            return await _context.Operators.FirstOrDefaultAsync(x => x.AppUserId == Id);
         }
 
     }

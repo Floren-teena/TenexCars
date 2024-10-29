@@ -50,6 +50,7 @@ try
     builder.Services.AddScoped<IPhotoService, PhotoService>();
     builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
     builder.Services.AddScoped<IOperatorRepository, OperatorRepository>();
+    builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
     builder.Services.AddTransient<SeedData>();
 
     builder.Services.AddCors(options =>
