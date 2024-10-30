@@ -34,5 +34,10 @@ namespace TenexCars.DataAccess.Repositories.Implementations
             return await _context.Operators.FirstOrDefaultAsync(x => x.AppUserId == Id);
         }
 
+        public async Task<Operator?> GetOperatorById(string Id)
+        {
+            return await _context.Operators.FirstOrDefaultAsync(x => x.Id == Id);
+        }
+
     }
 }

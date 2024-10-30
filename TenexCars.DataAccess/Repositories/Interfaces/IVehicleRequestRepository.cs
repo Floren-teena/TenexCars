@@ -7,10 +7,8 @@ using TenexCars.DataAccess.Models;
 
 namespace TenexCars.DataAccess.Repositories.Interfaces
 {
-    public interface IOperatorRepository
+    public interface IVehicleRequestRepository
     {
-        Task<Operator> AddOperatorAsync(Operator member);
-        Task<Operator?> GetOperatorByUserId(string Id);
-        Task<Operator?> GetOperatorById(string Id);
+        Task<VehicleRequest> AddVehicleRequestLog(VehicleRequest request);
     }
 }

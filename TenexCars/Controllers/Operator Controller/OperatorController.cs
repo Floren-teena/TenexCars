@@ -190,7 +190,7 @@ namespace TenexCars.Controllers.Operator_Controller
                 DriveAxleRatio = vehicle.DriveAxleRatio,
                 CarWarrantyOverview = vehicle.CarWarrantyOverview
             };
-            return View();
+            return View(carDetailsViewModel);
 
         }
     }
