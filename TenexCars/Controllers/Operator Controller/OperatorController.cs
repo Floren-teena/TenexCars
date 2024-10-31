@@ -305,7 +305,7 @@ namespace TenexCars.Controllers.Operator_Controller
                 }
 
                 // Generate password reset token
-                /*var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var encodedToken = Uri.EscapeDataString(token);
                 var resetPasswordUrl = Url.Action("SetNewPassword", "Account", new { userId = user.Id, token = encodedToken }, protocol: HttpContext.Request.Scheme);
 
@@ -329,7 +329,7 @@ namespace TenexCars.Controllers.Operator_Controller
                     Subject = "Welcome to Tenex! Set Your Password to Get Started",
                     Body = emailBody
                 };
-                await _emailService.SendOperatorSetPasswordEmailAsync(emailContent);*/
+                await _emailService.SendOperatorSetPasswordEmailAsync(emailContent);
 
                 return RedirectToAction("ManageOperatorMembers");
             }

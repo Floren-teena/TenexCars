@@ -48,6 +48,7 @@ try
 
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<IPhotoService, PhotoService>();
+    builder.Services.AddScoped<IEmailService, EmailService>();
     builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
     builder.Services.AddScoped<IOperatorRepository, OperatorRepository>();
     builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
