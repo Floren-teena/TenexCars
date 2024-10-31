@@ -229,7 +229,7 @@ namespace TenexCars.Controllers.Operator_Controller
             }
             else if (loggedInUser.Type == "Operator_Team_Member")
             {
-                //var operatorMemberAdmin = loggedInUser is not null ? await _operatorRepository.GetOperatorMemberByUserId(loggedInUser.Id) : null;
+                var operatorMemberAdmin = loggedInUser is not null ? await _operatorRepository.GetOperatorMemberByUserId(loggedInUser.Id) : null;
             }
             else
             {
@@ -238,5 +238,19 @@ namespace TenexCars.Controllers.Operator_Controller
 
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ManageOperatorMembers()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var operatorUser = user is not null ? await _operatorRepository.GetOperatorByUserId(user.Id) : null;
+            var model = new OperatorMemberViewModel
+            {
+                OperatorMembers = operatorUser is not null ? (await _operatorRepository.GetAllMembersForOperatorAsync(operatorUser.Id)).ToList() : null
+            };
+            return View(model);
+        }
+
+
     }
 }

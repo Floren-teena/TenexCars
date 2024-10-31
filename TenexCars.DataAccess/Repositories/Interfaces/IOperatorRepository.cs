@@ -16,5 +16,7 @@ namespace TenexCars.DataAccess.Repositories.Interfaces
         Task<int> GetTotalNumberOfSubscribers(string operatorId);
         Task<int> GetTotalNumberOfReservedCars(string operatorId);
         Task<int> GetTotalNumberOfActiveCars(string operatorId);
+        Task<IEnumerable<OperatorMember>> GetAllMembersForOperatorAsync(string operatorId);
+        Task<OperatorMember?> GetOperatorMemberByUserId(string Id);
     }
 }

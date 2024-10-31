@@ -78,7 +78,7 @@ namespace TenexCars.Controllers
                 else if (roles.Contains("Main_Operator"))
                 {
                     _logger.LogInformation("Redirecting to Operator page");
-                    return RedirectToAction("CreateVehicle", "Operator"); //change back to dashboard when i create it
+                    return RedirectToAction("OperatorDashboard", "Operator");
                 }
                 else if (roles.Contains("Operator_Team_Member"))
                 {

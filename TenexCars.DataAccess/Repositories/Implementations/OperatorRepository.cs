@@ -75,5 +75,14 @@ namespace TenexCars.DataAccess.Repositories.Implementations
                 .CountAsync();
         }
 
+        public async Task<IEnumerable<OperatorMember>> GetAllMembersForOperatorAsync(string operatorId)
+        {
+            return await _context.OperatorMembers.Where(o => o.OperatorId == operatorId).ToListAsync();
+        }
+
+        public async Task<OperatorMember?> GetOperatorMemberByUserId(string Id)
+        {
+            return await _context.OperatorMembers.FirstOrDefaultAsync(x => x.AppUserId == Id);
+        }
     }
 }
