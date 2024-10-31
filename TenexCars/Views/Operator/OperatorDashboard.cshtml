@@ -88,7 +88,7 @@
         var usersChart = new Chart(usersCtx, {
             type: 'line',
             data: {
-                labels: Array.from({ length: @Model.CurrentMonthStats.Count }, (_, i) => i + 1),
+                labels: Array.from({ length: @Model.CurrentMonthStats!.Count }, (_, i) => i + 1),
                 datasets: [
                     {
                         label: 'Current Month',

@@ -193,5 +193,50 @@ namespace TenexCars.Controllers.Operator_Controller
             return View(carDetailsViewModel);
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> OperatorDashboard(string operatorId)
+        {
+            var loggedInUser = await _userManager.GetUserAsync(User);
+
+            if (loggedInUser == null)
+            {
+                return Unauthorized();
+            }
+            if (loggedInUser.Type == "Main_Operator")
+            {
+                var operatorUser = loggedInUser is not null ? await _operatorRepository.GetOperatorByUserId(loggedInUser.Id) : null;
+
+                var totalVehicles = operatorUser is not null ? await _operatorRepository.GetTotalNumberOfCars(operatorUser.Id) : 0;
+                var totalSubscribers = operatorUser is not null ? await _operatorRepository.GetTotalNumberOfSubscribers(operatorUser.Id) : 0;
+                var totalReservedCars = operatorUser is not null ? await _operatorRepository.GetTotalNumberOfReservedCars(operatorUser.Id) : 0;
+                var totalActiveCars = operatorUser is not null ? await _operatorRepository.GetTotalNumberOfActiveCars(operatorUser.Id) : 0;
+
+                var viewModel = new OperatorDashboardViewModel
+                {
+                    OperatorId = operatorUser!.Id,
+                    TotalNumberOfVehicles = totalVehicles,
+                    TotalNumberOfSubscribers = totalSubscribers,
+                    TotalNumberOfReservedCars = totalReservedCars,
+                    TotalNumberOfActiveCars = totalActiveCars,
+                    CurrentMonthStats = new List<int> { 500, 700, 1200, 1500, 2000, 2500, 3000, 3500, 4000, 4500 },
+                    PastMonthStats = new List<int> { 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200 },
+                    OperatorLogo = operatorUser.CompanyLogo!
+                };
+
+                return View(viewModel);
+
+            }
+            else if (loggedInUser.Type == "Operator_Team_Member")
+            {
+                //var operatorMemberAdmin = loggedInUser is not null ? await _operatorRepository.GetOperatorMemberByUserId(loggedInUser.Id) : null;
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
+            return View();
+        }
     }
 }
