@@ -84,5 +84,15 @@ namespace TenexCars.DataAccess.Repositories.Implementations
         {
             return await _context.OperatorMembers.FirstOrDefaultAsync(x => x.AppUserId == Id);
         }
+
+        public async Task AddOperatorMemberAsync(OperatorMember member)
+        {
+            await _context.OperatorMembers.AddAsync(member);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<IEnumerable<OperatorMember>> GetAllOperatorMembersAsync()
+        {
+            return await _context.OperatorMembers.ToListAsync();
+        }
     }
 }

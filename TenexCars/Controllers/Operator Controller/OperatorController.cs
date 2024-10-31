@@ -4,6 +4,7 @@ using TenexCars.DataAccess.Models;
 using TenexCars.DataAccess.Repositories.Implementations;
 using TenexCars.DataAccess.Repositories.Interfaces;
 using TenexCars.DataAccess.ViewModels;
+using TenexCars.DTOs;
 using TenexCars.Interfaces;
 using TenexCars.Models.ViewModels;
 
@@ -16,15 +17,17 @@ namespace TenexCars.Controllers.Operator_Controller
         private readonly ILogger<OperatorController> _logger;
         private readonly IPhotoService _photoService;
         private readonly IVehicleRepository _vehicleRepository;
+        private readonly IEmailService _emailService;
 
         public OperatorController(UserManager<AppUser> userManager, IOperatorRepository operatorRepository, ILogger<OperatorController> logger,
-                                  IPhotoService photoService, IVehicleRepository vehicleRepository) 
+                                  IPhotoService photoService, IVehicleRepository vehicleRepository, IEmailService emailService) 
         {
             _userManager = userManager;
             _operatorRepository = operatorRepository;
             _logger = logger;
             _photoService = photoService;
             _vehicleRepository = vehicleRepository;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -251,6 +254,103 @@ namespace TenexCars.Controllers.Operator_Controller
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddOperatorMembers(OperatorMemberViewModel model)
+        {
+            var loggedInUser = await _userManager.GetUserAsync(User);
+            var operatorUser = loggedInUser is not null ? await _operatorRepository.GetOperatorByUserId(loggedInUser.Id) : null;
 
+            var user = new AppUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                //OperatorId = operatorUser?.Id,
+                Type = model.Role == "Admin" ? "Main_Operator" : "Operator_Team_Member"
+            };
+            var result = await _userManager.CreateAsync(user);
+
+            if (result.Succeeded)
+            {
+                if (model.Role == "Admin")
+                {
+                    await _userManager.AddToRoleAsync(user, "Main_Operator");
+
+                    var newOperator = new Operator
+                    {
+                        FirstName = model.FirstName!,
+                        LastName = model.LastName!,
+                        Email = model.Email!,
+                        AppUserId = user.Id
+                    };
+
+                    await _operatorRepository.AddOperatorAsync(newOperator);
+                }
+                else
+                {
+                    await _userManager.AddToRoleAsync(user, "Operator_Team_Member");
+
+                    var newOperatorMember = new OperatorMember
+                    {
+                        FirstName = model.FirstName!,
+                        LastName = model.LastName!,
+                        Email = model.Email!,
+                        AppUserId = user.Id,
+                        Role = model.Role,
+                        OperatorId = operatorUser!.Id,
+                        Operator = operatorUser
+                    };
+                    await _operatorRepository.AddOperatorMemberAsync(newOperatorMember);
+                }
+
+                // Generate password reset token
+                /*var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var encodedToken = Uri.EscapeDataString(token);
+                var resetPasswordUrl = Url.Action("SetNewPassword", "Account", new { userId = user.Id, token = encodedToken }, protocol: HttpContext.Request.Scheme);
+
+                var emailBody = $"<div style=\"color: black;\">" +
+                                $"Hello {model.FirstName},<br><br>" +
+                                $"Welcome to Tenex! We are excited to have you join us as an Operator {model.Role}. " +
+                                "To get started, please set your password by clicking the link below:" +
+                                "<br><br>" +
+                                $"<a href=\"{resetPasswordUrl}\" style=\"color: blue; text-decoration: none;\">Set Password Link</a><br><br>" +
+                                "This link will take you to a secure page where you can create your password and complete your account setup. " +
+                                "<br><br>" +
+                                "Welcome aboard, we look forward to working with you!" +
+                                "<br><br>" +
+                                "Best regards,<br>" +
+                                "The Tenex Team" +
+                                "</div>";
+
+                var emailContent = new EmailDto
+                {
+                    To = user.Email,
+                    Subject = "Welcome to Tenex! Set Your Password to Get Started",
+                    Body = emailBody
+                };
+                await _emailService.SendOperatorSetPasswordEmailAsync(emailContent);*/
+
+                return RedirectToAction("ManageOperatorMembers");
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    _logger.LogError($"Error: {error.Code} - {error.Description}");
+                }
+
+                ModelState.AddModelError(string.Empty, "Failed to create user. Please check the errors and try again.");
+            }
+            model.OperatorMembers = (await _operatorRepository.GetAllOperatorMembersAsync()).ToList();
+            return View("ManageOperatorMembers", model);
+        }
+
+        /*[HttpPost]
+        public async Task<IActionResult> DeleteOperatorMember(string email)
+        {
+            await _operatorRepository.DeleteOperatorMemberAsync(email);
+            return RedirectToAction("ManageOperatorMembers");
+        }*/
     }
 }
