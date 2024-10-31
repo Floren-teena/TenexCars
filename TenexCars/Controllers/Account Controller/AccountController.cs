@@ -5,6 +5,7 @@ using TenexCars.DataAccess.Enums;
 using TenexCars.DataAccess.Models;
 using TenexCars.DataAccess.Repositories.Interfaces;
 using TenexCars.DTOs;
+using TenexCars.Models.ViewModels;
 
 namespace TenexCars.Controllers
 {
@@ -14,14 +15,16 @@ namespace TenexCars.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<AccountController> _logger;
         private readonly ISubscriberRepository _subscriberRepository;
+        private readonly IAccountRepository _accountRepository;
 
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<AccountController> logger, 
-                                ISubscriberRepository subscriberRepository)
+                                ISubscriberRepository subscriberRepository, IAccountRepository accountRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _subscriberRepository = subscriberRepository;
+            _accountRepository = accountRepository;
         }
 
         public IActionResult Index()
@@ -102,6 +105,45 @@ namespace TenexCars.Controllers
             _logger.LogWarning("Invalid login attempt for user: {Email}", loginVm.Username);
             TempData["Error"] = "Invalid credentials";
             return View(loginVm);
+        }
+
+        [HttpGet]
+        public IActionResult SetNewPassword(string userId, string token)
+        {
+            var model = new SetNewPasswordViewModel
+            {
+                UserId = userId,
+                Token = token
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SetNewPassword(SetNewPasswordViewModel model)
+        {
+            _logger.LogInformation("Attempting to set initial password for user: {UserId}", model.UserId);
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Model state is invalid for user: {UserId}", model.UserId);
+                return View(model);
+            }
+
+            var result = await _accountRepository.SetInitialPasswordAsync(model.UserId, model.NewPassword);
+
+            if (result)
+            {
+                _logger.LogInformation("Initial password set succeeded for user: {UserId}", model.UserId);
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                _logger.LogError("Failed to set initial password for user: {UserId}", model.UserId);
+                ModelState.AddModelError("", "Failed to set new password or password is already set.");
+            }
+
+            return View(model);
         }
     }
 }
