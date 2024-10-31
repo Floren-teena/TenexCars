@@ -346,11 +346,11 @@ namespace TenexCars.Controllers.Operator_Controller
             return View("ManageOperatorMembers", model);
         }
 
-        /*[HttpPost]
+        [HttpPost]
         public async Task<IActionResult> DeleteOperatorMember(string email)
         {
             await _operatorRepository.DeleteOperatorMemberAsync(email);
             return RedirectToAction("ManageOperatorMembers");
-        }*/
+        }
     }
 }

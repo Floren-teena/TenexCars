@@ -90,9 +90,27 @@ namespace TenexCars.DataAccess.Repositories.Implementations
             await _context.OperatorMembers.AddAsync(member);
             await _context.SaveChangesAsync();
         }
+
         public async Task<IEnumerable<OperatorMember>> GetAllOperatorMembersAsync()
         {
             return await _context.OperatorMembers.ToListAsync();
         }
+
+        public async Task DeleteOperatorMemberAsync(string email)
+        {
+            var member = await _context.OperatorMembers.FirstOrDefaultAsync(a => a.Email == email);
+            if (member != null)
+            {
+                var user = await _userManager.FindByIdAsync(member.AppUserId!);
+                if (user != null)
+                {
+                    await _userManager.DeleteAsync(user);
+
+                }
+                _context.OperatorMembers.Remove(member);
+                await _context.SaveChangesAsync();
+            }
+        }
+
     }
 }

@@ -20,5 +20,6 @@ namespace TenexCars.DataAccess.Repositories.Interfaces
         Task<OperatorMember?> GetOperatorMemberByUserId(string Id);
         Task AddOperatorMemberAsync(OperatorMember member);
         Task<IEnumerable<OperatorMember>> GetAllOperatorMembersAsync();
+        Task DeleteOperatorMemberAsync(string email);
     }
 }
