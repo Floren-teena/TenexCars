@@ -24,5 +24,10 @@ namespace TenexCars.DataAccess.Repositories.Implementations
             await _context.SaveChangesAsync();
             return newSubscription.Entity;
         }
+
+        public async Task<Subscription?> GetSubscriptionForVehicle(string vehicleId)
+        {
+            return await _context.Subscriptions.FirstOrDefaultAsync(s => s.VehicleId == vehicleId);
+        }
     }
 }

@@ -87,5 +87,10 @@ namespace TenexCars.DataAccess.Repositories.Implementations
 
             return await vehicles.ToListAsync();
         }
+
+        public async Task<List<Vehicle>> GetVehiclesByOperator(string operatorId)
+        {
+            return await _context.Vehicles.Where(v => v.OperatorId == operatorId).ToListAsync();
+        }
     }
 }

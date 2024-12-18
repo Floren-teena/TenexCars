@@ -18,9 +18,12 @@ namespace TenexCars.Controllers.Operator_Controller
         private readonly IPhotoService _photoService;
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IEmailService _emailService;
+        private readonly ISubscriptionRepository _subscriptionRepository;
+        private readonly ISubscriberRepository _subscriberRepository;
 
         public OperatorController(UserManager<AppUser> userManager, IOperatorRepository operatorRepository, ILogger<OperatorController> logger,
-                                  IPhotoService photoService, IVehicleRepository vehicleRepository, IEmailService emailService) 
+                                  IPhotoService photoService, IVehicleRepository vehicleRepository, IEmailService emailService,
+                                  ISubscriptionRepository subscriptionRepository, ISubscriberRepository subscriberRepository) 
         {
             _userManager = userManager;
             _operatorRepository = operatorRepository;
@@ -28,6 +31,8 @@ namespace TenexCars.Controllers.Operator_Controller
             _photoService = photoService;
             _vehicleRepository = vehicleRepository;
             _emailService = emailService;
+            _subscriptionRepository = subscriptionRepository;
+            _subscriberRepository = subscriberRepository;
         }
 
         public IActionResult Index()
@@ -351,6 +356,73 @@ namespace TenexCars.Controllers.Operator_Controller
         {
             await _operatorRepository.DeleteOperatorMemberAsync(email);
             return RedirectToAction("ManageOperatorMembers");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> OperatorInventoryPage(OperatorInventoryViewModel model)
+        {
+            var loggedInUser = await _userManager.GetUserAsync(User);
+            if (loggedInUser == null)
+            {
+                return Unauthorized();
+            }
+
+            Operator? existingOperator = null;
+
+            if (loggedInUser.Type == "Main_Operator")
+            {
+                existingOperator = await _operatorRepository.GetOperatorByUserId(loggedInUser.Id);
+                ViewBag.CompanyName = existingOperator!.CompanyName;
+            }
+            else if (loggedInUser.Type == "Operator_Team_Member")
+            {
+                var operatorMember = await _operatorRepository.GetOperatorMemberByUserId(loggedInUser.Id);
+                existingOperator = await _operatorRepository.GetOperatorById(operatorMember!.OperatorId!);
+                ViewBag.CompanyName = existingOperator!.CompanyName;
+            }
+            else
+            {
+                return BadRequest("Invalid user type.");
+            }
+
+            if (existingOperator == null)
+            {
+                _logger.LogInformation("Operator ID is required.");
+                return BadRequest();
+            }
+
+            //var operatorUser = loggedInUser is not null ? await _operatorRepository.GetOperatorByUserId(loggedInUser.Id) : null;
+            var vehicles = existingOperator is not null ? await _vehicleRepository.GetVehiclesByOperator(existingOperator.Id) : null;
+            if (vehicles == null)
+            {
+                TempData["error"] = "Operator does not have existing Vehicles, proceed to add new vehicles";
+                return View(new List<OperatorInventoryViewModel> { model });
+            }
+
+            var viewModelList = new List<OperatorInventoryViewModel>();
+
+            foreach (var vehicle in vehicles)
+            {
+                // Find the subscription related to the current vehicle
+                var subscription = await _subscriptionRepository.GetSubscriptionForVehicle(vehicle.Id);
+
+                var subscriber = subscription is not null ? await _subscriberRepository.GetSubscriberByIdAsync(subscription.SubscriberId!) : null;
+
+                var viewModel = new OperatorInventoryViewModel
+                {
+                    VehicleId = vehicle.Id,
+                    VehicleName = $"{vehicle.Make} {vehicle.Model}",
+                    Status = subscription is not null ? subscription.SubscriptionStatus : "",
+                    TrackerStatus = subscription is not null ? "Active" : "Inactive",
+                    SubscriberId = subscriber is not null ? subscriber.Id : null,
+                    SubscriberName = subscriber is not null ? $"{subscriber.FirstName} {subscriber.LastName}" : ""
+                };
+
+                viewModelList.Add(viewModel);
+            }
+
+            // Pass the view model list to the view
+            return View(viewModelList);
         }
     }
 }

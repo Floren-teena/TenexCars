@@ -11,5 +11,6 @@ namespace TenexCars.DataAccess.Repositories.Interfaces
     {
         Task<Subscriber?> GetSubscriberByUserId(string id);
         Task<Subscriber> AddSubscriberAsync(Subscriber subscriber);
+        Task<Subscriber?> GetSubscriberByIdAsync(string Id);
     }
 }

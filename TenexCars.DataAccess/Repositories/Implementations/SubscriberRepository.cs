@@ -23,6 +23,12 @@ namespace TenexCars.DataAccess.Repositories.Implementations
             return await _context.Subscribers.FirstOrDefaultAsync(s => s.AppUserId == id);
         }
 
+        public async Task<Subscriber?> GetSubscriberByIdAsync(string Id)
+        {
+            return await _context.Subscribers.FirstOrDefaultAsync(s => s.Id == Id);
+
+        }
+
         public async Task<Subscriber> AddSubscriberAsync(Subscriber subscriber)
         {
             var newSubscriber = await _context.Subscribers.AddAsync(subscriber);

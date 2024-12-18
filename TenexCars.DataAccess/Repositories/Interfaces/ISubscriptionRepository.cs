@@ -10,5 +10,6 @@ namespace TenexCars.DataAccess.Repositories.Interfaces
     public interface ISubscriptionRepository
     {
         Task<Subscription> AddSubscriptionAsync(Subscription subscription);
+        Task<Subscription?> GetSubscriptionForVehicle(string vehicleId);
     }
 }
