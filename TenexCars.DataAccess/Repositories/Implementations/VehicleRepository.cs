@@ -92,5 +92,16 @@ namespace TenexCars.DataAccess.Repositories.Implementations
         {
             return await _context.Vehicles.Where(v => v.OperatorId == operatorId).ToListAsync();
         }
+
+        public void UpdateVehicle(Vehicle vehicle)
+        {
+            _context.Vehicles.Update(vehicle);
+            _context.SaveChanges();
+        }
+
+        public bool VehicleExists(string id)
+        {
+            return _context.Vehicles.Any(v => v.Id == id);
+        }
     }
 }

@@ -159,19 +159,19 @@
         <div class="buttons">
             <button type="button" class="edit-btn btn-sm col-2 mb-2" id="editButton">EDIT</button>
         </div>
-        <fieldset>
+        <fieldset class="mb-4">
             <legend>Insurance Details</legend>
             <div class="form-row">
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col">
                         <label asp-for="FinacialStartDate">Insurance Start Date</label>
-                        <input type="date" asp-for="FinacialStartDate" disabled />
+                        <input type="date" asp-for="FinacialStartDate" class="form-control" disabled  />
                         <span asp-validation-for="FinacialStartDate"></span>
                     </div>
 
                     <div class="col">
                         <label asp-for="FinacialEndDate">Insurance End Date</label>
-                        <input type="date" class="mb-4" asp-for="FinacialEndDate" disabled />
+                        <input type="date" asp-for="FinacialEndDate" class="form-control" disabled  />
                         <span asp-validation-for="FinacialEndDate"></span>
                     </div>
                 </div>
@@ -182,154 +182,231 @@
                 </div>
             </div>
         </fieldset>
+
         <h5>Vehicle ID: @Model.Id</h5>
-        <div class="car-details">
+        <div class="car-details mb-3">
             <p>Car Type: @Model.Cartype</p>
             <p>Car Name: @Model.Make</p>
             <p>Car Model: @Model.Model</p>
+            <p>Car Dealer: @Model.CarDealerName</p>
         </div>
-        <div class="form-row">
-            <label asp-for="ChasisNumber">Chassis Number</label>
-            <input type="text" asp-for="ChasisNumber" placeholder="@Model.ChasisNumber" disabled />
-            <span asp-validation-for="ChasisNumber"></span>
+
+        <div class="row">
+            <div class="col mb-3">
+                <label asp-for="ChasisNumber">Chassis Number</label>
+                <input type="text" asp-for="ChasisNumber" class="form-control" placeholder="@Model.ChasisNumber" disabled />
+                <span asp-validation-for="ChasisNumber"></span>
+            </div>
+
+            <div class="col mb-3">
+                <label asp-for="SeatNumbers">Number of Seats</label>
+                <input type="number" asp-for="SeatNumbers" class="form-control" placeholder="@Model.SeatNumbers" disabled />
+                <span asp-validation-for="SeatNumbers"></span>
+            </div>
         </div>
-        <div class="form-row">
-            <label asp-for="SeatNumbers">Number of Seats</label>
-            <input type="number" asp-for="SeatNumbers" placeholder="@Model.SeatNumbers" disabled />
-            <span asp-validation-for="SeatNumbers"></span>
+        
+        <div class="row">
+            <div class="col mb-3">
+                <label asp-for="Mileage">Mileage</label>
+                <input type="number" asp-for="Mileage" class="form-control" placeholder="@Model.Mileage" disabled />
+                <span asp-validation-for="Mileage"></span>
+            </div>
+
+            <div class="col mb-3">
+                <label asp-for="TrunkSize">Trunk Size</label>
+                <input type="text" asp-for="TrunkSize" class="form-control" placeholder="@Model.TrunkSize" disabled />
+                <span asp-validation-for="TrunkSize"></span>
+            </div>
         </div>
-        <div class="form-row">
-            <label asp-for="Mileage">Mileage</label>
-            <input type="number" asp-for="Mileage" placeholder="@Model.Mileage" disabled />
-            <span asp-validation-for="Mileage"></span>
+
+        <div class="row">
+            <div class="col mb-3">
+                <label asp-for="Color">Color</label>
+                <input type="text" asp-for="Color" class="form-control" placeholder="@Model.Color" disabled />
+                <span asp-validation-for="Color"></span>
+            </div>
+            <div class="col mb-3">
+                <label asp-for="VIN">VIN</label>
+                <input type="text" asp-for="VIN" class="form-control" placeholder="@Model.VIN" disabled />
+                <span asp-validation-for="VIN"></span>
+            </div>
         </div>
-        <div class="form-row">
-            <label asp-for="TrunkSize">Trunk Size</label>
-            <input type="text" asp-for="TrunkSize" placeholder="@Model.TrunkSize" disabled />
-            <span asp-validation-for="TrunkSize"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="Color">Color</label>
-            <input type="text" asp-for="Color" placeholder="@Model.Color" disabled />
-            <span asp-validation-for="Color"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="VIN">VIN</label>
-            <input type="text" asp-for="VIN" placeholder="@Model.VIN" disabled />
-            <span asp-validation-for="VIN"></span>
-        </div>
-        <div class="form-row">
+
+        <div class="form-row mb-3">
             <label asp-for="PickupAddress">Pickup Address</label>
-            <input type="text" asp-for="PickupAddress" placeholder="@Model.PickupAddress" disabled />
+            <input type="text" asp-for="PickupAddress" class="form-control" placeholder="@Model.PickupAddress" disabled />
             <span asp-validation-for="PickupAddress"></span>
         </div>
         
-        <div class="form-row">
+        <div class="row">
+            <div class="col mb-3">
+                <label asp-for="City">City</label>
+                <input type="text" asp-for="City" class="form-control" placeholder="@Model.City" disabled />
+                <span asp-validation-for="City"></span>
+            </div>
+            <div class="col mb-3">
+                <label asp-for="ZIP">ZIP Code</label>
+                <input type="text" asp-for="ZIP" class="form-control" placeholder="@Model.ZIP" disabled />
+                <span asp-validation-for="ZIP"></span>
+            </div>
+        </div>
+
+        <div class="mb-4">
             <label class="form-label" asp-for="State">State</label>
-            <select asp-for="State" class="form-select mb-3" id="State" aria-label="Select State" disabled>
+            <select asp-for="State" id="State" class="form-select" aria-label="Select State" disabled>
                 <option value="">Select State</option>
-                @foreach(var state in Enum.GetValues(typeof(State)))
+                @foreach (var state in Enum.GetValues(typeof(State)))
                 {
                     <option value="@state">@state</option>
                 }
             </select>
             <span asp-validation-for="State"></span>
         </div>
-        <div class="form-row">
-            <label asp-for="City">City</label>
-            <input type="text" asp-for="City" placeholder="@Model.City" disabled />
-            <span asp-validation-for="City"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="ZIP">ZIP Code</label>
-            <input type="text" asp-for="ZIP" placeholder="@Model.ZIP" disabled />
-            <span asp-validation-for="ZIP"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="CarDealerName">Car Dealer Name</label>
-            <input type="text" asp-for="CarDealerName" placeholder="@Model.CarDealerName" disabled />
-            <span asp-validation-for="CarDealerName"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="Torque">Torque</label>
-            <input type="text" asp-for="Torque" placeholder="@Model.Torque" disabled />
-            <span asp-validation-for="Torque"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="TransmissionType">Transmission Type</label>
-            <input type="text" asp-for="TransmissionType" placeholder="@Model.TransmissionType" disabled />
-            <span asp-validation-for="TransmissionType"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="Horsepower">Horse Power</label>
-            <input type="text" asp-for="Horsepower" placeholder="@Model.Horsepower" disabled />
-            <span asp-validation-for="Horsepower"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="TurningDiameter">Turning Diameter</label>
-            <input type="text" asp-for="TurningDiameter" placeholder="@Model.TurningDiameter" disabled />
-            <span asp-validation-for="TurningDiameter"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="EngineType">Engine Type</label>
-            <input type="text" asp-for="EngineType" placeholder="@Model.EngineType" disabled />
-            <span asp-validation-for="EngineType"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="CurbWeight">Curb Weight</label>
-            <input type="text" asp-for="CurbWeight" placeholder="@Model.CurbWeight" disabled />
-            <span asp-validation-for="CurbWeight"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="DiscBrakes">Disk Brakes</label>
-            <input type="text" asp-for="DiscBrakes" placeholder="@Model.DiscBrakes" disabled />
-            <span asp-validation-for="DiscBrakes"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="TransmissionSpeed">Transmission Speed</label>
-            <input type="text" asp-for="TransmissionSpeed" placeholder="@Model.TransmissionSpeed" disabled />
-            <span asp-validation-for="TransmissionSpeed"></span>
-        </div>
-        <div class="form-row">
-            <label asp-for="WheelDrive">Wheel Drive Type</label>
-            <input type="text" asp-for="WheelDrive" placeholder="@Model.WheelDrive" disabled />
-            <span asp-validation-for="WheelDrive"></span>
-        </div>
+
+        <fieldset class="mt-3">
+            <legend class="mb-3">Mechanical & Engine Details</legend>
+
+            <div class="row">
+                <div class="col mb-3">
+                    <label asp-for="Torque">Torque</label>
+                    <input type="text" asp-for="Torque" class="form-control" placeholder="@Model.Torque" disabled />
+                    <span asp-validation-for="Torque"></span>
+                </div>
+                <div class="col mb-3">
+                    <label>Transmission Type</label>
+                    <select asp-for="TransmissionType" class="form-select" aria-label="TransmissionType" disabled>
+                        <option selected>Transmission Type</option>
+                        <option value="Automatic">Automatic</option>
+                        <option value="Manual">Manual</option>
+                    </select>
+                    <span asp-validation-for="TransmissionType" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row" >
+                <div class="col mb-3">
+                    <label asp-for="Horsepower">Horse Power</label>
+                    <input type="text" asp-for="Horsepower" class="form-control" placeholder="@Model.Horsepower" disabled />
+                    <span asp-validation-for="Horsepower"></span>
+                </div>
+                <div class="col mb-3">
+                    <label asp-for="TurningDiameter">Turning Diameter</label>
+                    <input type="text" asp-for="TurningDiameter" class="form-control" placeholder="@Model.TurningDiameter" disabled />
+                    <span asp-validation-for="TurningDiameter"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col mb-3">
+                    <label asp-for="EngineType">Engine Type</label>
+                    <select asp-for="EngineType" class="form-select" aria-label="Engine Type" disabled>
+                        <option selected value="">Engine Type</option>
+                        @foreach (var engine in Enum.GetValues(typeof(EngineType)))
+                        {
+                            <option value="@engine">@engine</option>
+                        }
+                    </select>
+                    <span asp-validation-for="EngineType"></span>
+                </div>
+                <div class="col mb-3">
+                    <label asp-for="CurbWeight">Curb Weight</label>
+                    <input type="text" asp-for="CurbWeight" class="form-control" placeholder="@Model.CurbWeight" disabled />
+                    <span asp-validation-for="CurbWeight"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col mb-3">
+                    <label asp-for="DiscBrakes">Disk Brakes</label>
+                    <select asp-for="DiscBrakes" class="form-select" aria-label="Disc Brakes" disabled>
+                        <option selected>Disc Brakes</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                    <span asp-validation-for="DiscBrakes"></span>
+                </div>
+                <div class="col mb-3">
+                    <label asp-for="TransmissionSpeed">Transmission Speed</label>
+                    <input type="text" asp-for="TransmissionSpeed" class="form-control" placeholder="@Model.TransmissionSpeed" disabled />
+                    <span asp-validation-for="TransmissionSpeed"></span>
+                </div>
+            </div>
+
+            <div class="form-row mb-3">
+                <label asp-for="WheelDrive">Wheel Drive Type</label>
+                <select asp-for="WheelDrive" class="form-select mb-3" aria-label="Wheel Drive Type" disabled>
+                    <option selected value="">Wheel Drive Type</option>
+                    @foreach (var wheel in Enum.GetValues(typeof(WheelDrive)))
+                    {
+                        <option value="@wheel">@wheel</option>
+                    }
+                </select>
+                <span asp-validation-for="WheelDrive"></span>
+            </div>
+        </fieldset>
+
         <fieldset>
             <legend>Key Features</legend>
-            <div class="form-row">
-                <label asp-for="SeatNumbers">Passenger Seats</label>
-                <input type="text" asp-for="SeatNumbers" placeholder="@Model.SeatNumbers" disabled />
-                <span asp-validation-for="SeatNumbers"></span>
+
+           <div class="row">
+                <div class="col mb-3">
+                    <label asp-for="SeatNumbers">Passenger Seats</label>
+                    <input type="text" asp-for="SeatNumbers" class="form-control" placeholder="@Model.SeatNumbers" disabled />
+                    <span asp-validation-for="SeatNumbers"></span>
+                </div>
+                <div class="col mb-3">
+                    <label asp-for="CargoSpace">Cargo Space</label>
+                    <input type="text" asp-for="CargoSpace" class="form-control" placeholder="@Model.CargoSpace" disabled />
+                    <span asp-validation-for="CargoSpace"></span>
+                </div>
+           </div>
+
+            <div class="row">
+                <div class="col mb-3">
+                    <label asp-for="DcFastCharging">DC Fast Charging</label>
+                    <select asp-for="DcFastCharging" class="form-select" id="dcFastCharging" aria-label="Dc Fast Charging" disabled>
+                        <option selected value="">Dc Fast Charging</option>
+                        @foreach (var charge in Enum.GetValues(typeof(DcFastCharging)))
+                        {
+                            <option value="@charge">@charge</option>
+                        }
+                    </select>
+                    <span asp-validation-for="DcFastCharging"></span>
+                </div>
+                <div class="col mb-3">
+                    <label asp-for="HomeCharger">Home Charger</label>
+                    <select asp-for="HomeCharger" class="form-select" id="homeCharger" aria-label="Home Charger" disabled>
+                        <option selected value="">Select</option>
+                        @foreach (var home in Enum.GetValues(typeof(HomeCharger)))
+                        {
+                            <option value="@home">@home</option>
+                        }
+                    </select>
+                    <span asp-validation-for="HomeCharger"></span>
+                </div>
             </div>
-            <div class="form-row">
-                <label asp-for="CargoSpace">Cargo Space</label>
-                <input type="text" asp-for="CargoSpace" placeholder="@Model.CargoSpace" disabled />
-                <span asp-validation-for="CargoSpace"></span>
+
+            <div class="row">
+                <div class="col mb-3">
+                    <label asp-for="SeatHeater">Seat Heater</label>
+                    <select asp-for="SeatHeater" class="form-select" aria-label="Seat Heater" disabled>
+                        <option selected value="AllSeats">All Seats</option>
+                        <option value="FrontSeats"> Front Seats</option>
+                        <option value="DriverSeats">Driver Seats</option>
+                        <option value="BackSeats">Back Seats</option>
+                    </select>
+                    <span asp-validation-for="SeatHeater"></span>
+                </div>
+                <div class="col mb-3">
+                    <label asp-for="NumberOfSpeakers">Number of Speakers</label>
+                    <input type="text" asp-for="NumberOfSpeakers" class="form-control" placeholder="@Model.NumberOfSpeakers" disabled />
+                    <span asp-validation-for="NumberOfSpeakers"></span>
+                </div>
             </div>
-            <div class="form-row">
-                <label asp-for="DcFastCharging">DC Fast Charging</label>
-                <input type="text" asp-for="DcFastCharging" placeholder="@Model.DcFastCharging" disabled />
-                <span asp-validation-for="DcFastCharging"></span>
-            </div>
-            <div class="form-row">
-                <label asp-for="HomeCharger">Home Charger</label>
-                <input type="text" asp-for="HomeCharger" placeholder="@Model.HomeCharger" disabled />
-                <span asp-validation-for="HomeCharger"></span>
-            </div>
-            <div class="form-row">
-                <label asp-for="SeatHeater">Seat Heater</label>
-                <input type="text" asp-for="SeatHeater" placeholder="@Model.SeatHeater" disabled />
-                <span asp-validation-for="SeatHeater"></span>
-            </div>
-            <div class="form-row">
-                <label asp-for="NumberOfSpeakers">Number of Speakers</label>
-                <input type="text" asp-for="NumberOfSpeakers" placeholder="@Model.NumberOfSpeakers" disabled />
-                <span asp-validation-for="NumberOfSpeakers"></span>
-            </div>
-            <div class="form-row">
+
+            <div class="form-row mb-3">
                 <label asp-for="RangeOfFullCharge">Range of Full Charge</label>
-                <input type="text" asp-for="RangeOfFullCharge" placeholder="@Model.RangeOfFullCharge" disabled />
+                <input type="text" asp-for="RangeOfFullCharge" class="form-control" placeholder="@Model.RangeOfFullCharge" disabled />
                 <span asp-validation-for="RangeOfFullCharge"></span>
             </div>
         </fieldset>
@@ -382,7 +459,7 @@
                     <p>Upload Car pictures</p>
                     <div class="hero">
                         <label for="inputFile" id="dropArea">
-                            <input type="file" asp-for="CarPictures" id="inputFile" hidden accept="image/*" />
+                            <input type="file" asp-for="VehicleImage" id="inputFile" hidden accept="image/*" />
                             <div id="imgView">
                                 <img src="http://100dayscss.com/codepen/upload.svg" alt="Upload Image" />
                                 <p>Choose files to Upload </p>
@@ -400,10 +477,10 @@
     </form>
     <script>
         document.getElementById('editButton').addEventListener('click', function () {
-            // Get all input fields in the form
-            var inputs = document.querySelectorAll('#myForm input');
+            // Get all input fields and select fields in the form
+            var inputs = document.querySelectorAll('#myForm input, #myForm select');
 
-            // Enable all input fields
+            // Enable all input and select fields
             inputs.forEach(function (input) {
                 input.disabled = false;
             });
@@ -412,7 +489,7 @@
             document.getElementById('submitButton').disabled = false;
         });
 
-         //Implementation for uploading picture on the form's frontend from youtube video
+        //Implementation for uploading picture on the form
         const dropArea = document.getElementById("dropArea");
         const inputFile = document.getElementById("inputFile");
         const imgView = document.getElementById("imgView");

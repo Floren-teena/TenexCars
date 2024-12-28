@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TenexCars.DataAccess.Models;
 using TenexCars.DataAccess.Repositories.Implementations;
 using TenexCars.DataAccess.Repositories.Interfaces;
@@ -23,7 +24,7 @@ namespace TenexCars.Controllers.Operator_Controller
 
         public OperatorController(UserManager<AppUser> userManager, IOperatorRepository operatorRepository, ILogger<OperatorController> logger,
                                   IPhotoService photoService, IVehicleRepository vehicleRepository, IEmailService emailService,
-                                  ISubscriptionRepository subscriptionRepository, ISubscriberRepository subscriberRepository) 
+                                  ISubscriptionRepository subscriptionRepository, ISubscriberRepository subscriberRepository)
         {
             _userManager = userManager;
             _operatorRepository = operatorRepository;
@@ -423,6 +424,163 @@ namespace TenexCars.Controllers.Operator_Controller
 
             // Pass the view model list to the view
             return View(viewModelList);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var vehicle = await _vehicleRepository.GetVehicleById(id);
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+
+            var vehicleViewModel = new VehicleViewModel
+            {
+                Id = vehicle.Id,
+                Cartype = vehicle.Cartype,
+                Make = vehicle.Make,
+                Model = vehicle.Model,
+                ChasisNumber = vehicle.ChasisNumber,
+                SeatNumbers = vehicle.SeatNumbers,
+                Mileage = vehicle.Mileage,
+                TrunkSize = vehicle.TrunkSize,
+                FinacialStartDate = vehicle.FinacialStartDate,
+                FinacialEndDate = vehicle.FinacialEndDate,
+                Color = vehicle.Color,
+                VIN = vehicle.VIN,
+                PickupAddress = vehicle.PickupAddress,
+                State = vehicle.State,
+                City = vehicle.City,
+                ZIP = vehicle.ZIP,
+                CarDealerName = vehicle.CarDealerName,
+                Torque = vehicle.Torque,
+                TransmissionType = vehicle.TransmissionType,
+                Horsepower = vehicle.Horsepower,
+                TurningDiameter = vehicle.TurningDiameter,
+                CurbWeight = vehicle.CurbWeight,
+                DiscBrakes = vehicle.DiscBrakes,
+                TransmissionSpeed = vehicle.TransmissionSpeed,
+                WheelDrive = vehicle.WheelDrive,
+                CargoSpace = vehicle.CargoSpace,
+                DcFastCharging = vehicle.DcFastCharging,
+                HomeCharger = vehicle.HomeCharger,
+                SeatHeater = vehicle.SeatHeater,
+                NumberOfSpeakers = vehicle.NumberOfSpeakers,
+                RangeOfFullCharge = vehicle.RangeOfFullCharge,
+                Radio = vehicle.Radio ?? false,
+                DriverLumbarSupport = vehicle.DriverLumbarSupport ?? false,
+                TouchScreenDisplay = vehicle.TouchScreenDisplay ?? false,
+                RemoteKeylessEntry = vehicle.RemoteKeylessEntry ?? false,
+                StandardLowTirePressureWarning = vehicle.StandardLowTirePressureWarning ?? false,
+                BluetoothSystem = vehicle.BluetoothSystem ?? false,
+                //VehicleImage = vehicle.ImageUrl
+            };
+
+            return View(vehicleViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(VehicleViewModel vehicleViewModel)
+        {
+            string? vehicleInsuranceUrl = null!;
+            string? vehicleImageUrl = null!;
+
+            // Upload the new car picture if provided
+            if (vehicleViewModel.VehicleImage != null)
+            {
+                var photoResult = await _photoService.AddPhotoAsync(vehicleViewModel.VehicleImage);
+                vehicleImageUrl = photoResult.Url.ToString();
+                /*if (photoResult?.Url != null)
+                {
+                    vehicleImageUrl = photoResult.Url.ToString();
+                }*/
+            }
+
+            if (vehicleViewModel.InsuranceDocument != null)
+            {
+                var photoResult = await _photoService.AddPhotoAsync(vehicleViewModel.InsuranceDocument);
+                vehicleInsuranceUrl = photoResult?.Url?.ToString();
+            }
+
+            if (vehicleViewModel == null || string.IsNullOrEmpty(vehicleViewModel.Id))
+            {
+                return BadRequest();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var vehicle = await _vehicleRepository.GetVehicleById(vehicleViewModel.Id);
+                    if (vehicle == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Update the existing vehicle entity with details from the viewmodel
+                    vehicle.Cartype = vehicleViewModel.Cartype;
+                    vehicle.Make = vehicleViewModel.Make;
+                    vehicle.Model = vehicleViewModel.Model;
+                    vehicle.ChasisNumber = vehicleViewModel.ChasisNumber;
+                    vehicle.SeatNumbers = vehicleViewModel.SeatNumbers;
+                    vehicle.Mileage = vehicleViewModel.Mileage;
+                    vehicle.TrunkSize = vehicleViewModel.TrunkSize;
+                    vehicle.FinacialStartDate = vehicleViewModel.FinacialStartDate;
+                    vehicle.FinacialEndDate = vehicleViewModel.FinacialEndDate;
+                    vehicle.Color = vehicleViewModel.Color;
+                    vehicle.VIN = vehicleViewModel.VIN;
+                    vehicle.PickupAddress = vehicleViewModel.PickupAddress;
+                    vehicle.State = vehicleViewModel.State;
+                    vehicle.City = vehicleViewModel.City;
+                    vehicle.ZIP = vehicleViewModel.ZIP;
+                    vehicle.CarDealerName = vehicleViewModel.CarDealerName;
+                    vehicle.Torque = vehicleViewModel.Torque;
+                    vehicle.TransmissionType = vehicleViewModel.TransmissionType;
+                    vehicle.Horsepower = vehicleViewModel.Horsepower;
+                    vehicle.TurningDiameter = vehicleViewModel.TurningDiameter;
+                    vehicle.CurbWeight = vehicleViewModel.CurbWeight;
+                    vehicle.DiscBrakes = vehicleViewModel.DiscBrakes;
+                    vehicle.TransmissionSpeed = vehicleViewModel.TransmissionSpeed;
+                    vehicle.WheelDrive = vehicleViewModel.WheelDrive;
+                    vehicle.CargoSpace = vehicleViewModel.CargoSpace;
+                    vehicle.DcFastCharging = vehicleViewModel.DcFastCharging;
+                    vehicle.HomeCharger = vehicleViewModel.HomeCharger;
+                    vehicle.SeatHeater = vehicleViewModel.SeatHeater;
+                    vehicle.NumberOfSpeakers = vehicleViewModel.NumberOfSpeakers;
+                    vehicle.RangeOfFullCharge = vehicleViewModel.RangeOfFullCharge;
+                    vehicle.Radio = vehicleViewModel.Radio;
+                    vehicle.DriverLumbarSupport = vehicleViewModel.DriverLumbarSupport;
+                    vehicle.TouchScreenDisplay = vehicleViewModel.TouchScreenDisplay;
+                    vehicle.RemoteKeylessEntry = vehicleViewModel.RemoteKeylessEntry;
+                    vehicle.StandardLowTirePressureWarning = vehicleViewModel.StandardLowTirePressureWarning;
+                    vehicle.BluetoothSystem = vehicleViewModel.BluetoothSystem;
+                    vehicle.InsuranceDocument = vehicleInsuranceUrl;
+                    vehicle.ImageUrl = vehicleImageUrl;
+
+                    _vehicleRepository.UpdateVehicle(vehicle);
+                    _logger.LogInformation("Vehicle edited successfully");
+                    TempData["success"] = "Vehicle edited successfully";
+                }
+                catch (DbUpdateException)
+                {
+                    if (!_vehicleRepository.VehicleExists(vehicleViewModel.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            return View(vehicleViewModel);
         }
     }
 }

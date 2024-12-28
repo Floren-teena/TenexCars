@@ -16,5 +16,7 @@ namespace TenexCars.DataAccess.Repositories.Interfaces
         Task<List<Vehicle>> GetAllInActiveVehicles(IEnumerable<Vehicle> vehicles);
         Task<IEnumerable<Vehicle>> GetAll(QueryObject query);
         Task<List<Vehicle>> GetVehiclesByOperator(string operatorId);
+        void UpdateVehicle(Vehicle vehicle);
+        bool VehicleExists(string id);
     }
 }

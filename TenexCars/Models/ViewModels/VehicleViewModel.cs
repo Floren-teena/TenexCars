@@ -46,6 +46,6 @@ public class VehicleViewModel
     public bool RemoteKeylessEntry { get; set; }
     public bool StandardLowTirePressureWarning { get; set; }
     public bool BluetoothSystem { get; set; }
-    public string? CarPictures { get; set; }
+    public IFormFile? VehicleImage { get; set; }
     public IFormFile? InsuranceDocument { get; set; }
 }
