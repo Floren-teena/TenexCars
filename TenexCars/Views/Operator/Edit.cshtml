@@ -185,11 +185,17 @@
 
         <h5>Vehicle ID: @Model.Id</h5>
         <div class="car-details mb-3">
-            <p>Car Type: @Model.Cartype</p>
+            <p> Car Type: @Model.Cartype</p>
             <p>Car Name: @Model.Make</p>
             <p>Car Model: @Model.Model</p>
             <p>Car Dealer: @Model.CarDealerName</p>
         </div>
+
+        <!-- Hidden inputs to include these values in the form submission -->
+        <input type="hidden" asp-for="Cartype" />
+        <input type="hidden" asp-for="Make" />
+        <input type="hidden" asp-for="Model" />
+        <input type="hidden" asp-for="CarDealerName" />
 
         <div class="row">
             <div class="col mb-3">
