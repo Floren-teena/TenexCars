@@ -48,4 +48,5 @@ public class VehicleViewModel
     public bool BluetoothSystem { get; set; }
     public IFormFile? VehicleImage { get; set; }
     public IFormFile? InsuranceDocument { get; set; }
+    public string? InsuranceDocumentUrl { get; set; }
 }

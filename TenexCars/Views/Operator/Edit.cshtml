@@ -159,7 +159,7 @@
         <div class="buttons">
             <button type="button" class="edit-btn btn-sm col-2 mb-2" id="editButton">EDIT</button>
         </div>
-        <fieldset class="mb-4">
+        @* <fieldset class="mb-4">
             <legend>Insurance Details</legend>
             <div class="form-row">
                 <div class="row mb-3">
@@ -176,12 +176,14 @@
                     </div>
                 </div>
 
+
                 <div>
                     <label class="form-label mb-2" style="font-size: 17px">Update Insurance Documents</label><br />
-                    <input type="file" asp-for="InsuranceDocument" target="_blank" class="form-control" />
+                    <a href="@Model.InsuranceDocument" target="_blank" class="mb-4">View Current Insurance document</a><br />
+                    <input type="file" asp-for="InsuranceDocument" class="form-control" />
                 </div>
             </div>
-        </fieldset>
+        </fieldset> *@
 
         <h5>Vehicle ID: @Model.Id</h5>
         <div class="car-details mb-3">

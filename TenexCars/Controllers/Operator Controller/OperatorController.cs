@@ -492,21 +492,28 @@ namespace TenexCars.Controllers.Operator_Controller
             string? vehicleInsuranceUrl = null!;
             string? vehicleImageUrl = null!;
 
-            // Upload the new car picture if provided
             if (vehicleViewModel.VehicleImage != null)
             {
                 var photoResult = await _photoService.AddPhotoAsync(vehicleViewModel.VehicleImage);
                 vehicleImageUrl = photoResult.Url.ToString();
-                /*if (photoResult?.Url != null)
-                {
-                    vehicleImageUrl = photoResult.Url.ToString();
-                }*/
+            }
+            else
+            {
+                // Preserve the existing vehicle image URL
+                var existingVehicle = await _vehicleRepository.GetVehicleById(vehicleViewModel.Id!);
+                vehicleImageUrl = existingVehicle?.ImageUrl;
             }
 
             if (vehicleViewModel.InsuranceDocument != null)
             {
                 var photoResult = await _photoService.AddPhotoAsync(vehicleViewModel.InsuranceDocument);
                 vehicleInsuranceUrl = photoResult?.Url?.ToString();
+            }
+            else
+            {
+                // Preserve the existing insurance document URL
+                var existingVehicle = await _vehicleRepository.GetVehicleById(vehicleViewModel.Id!);
+                vehicleInsuranceUrl = existingVehicle?.InsuranceDocument;
             }
 
             if (vehicleViewModel == null || string.IsNullOrEmpty(vehicleViewModel.Id))
