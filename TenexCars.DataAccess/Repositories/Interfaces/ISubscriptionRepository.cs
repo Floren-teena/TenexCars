@@ -13,5 +13,7 @@ namespace TenexCars.DataAccess.Repositories.Interfaces
         Task<Subscription?> GetSubscriptionForVehicle(string vehicleId);
         Task<Subscription?> GetSubscriptionBySubcriber(string Id);
         Task<Subscription> UpdateSubscription(Subscription getExistingSubscription);
+        Task<Subscription> GetSubscriptionForOperator(string operatorId);
+        Task<List<Subscription>> GetAllSubscriptionsForOperator(string operatorId);
     }
 }

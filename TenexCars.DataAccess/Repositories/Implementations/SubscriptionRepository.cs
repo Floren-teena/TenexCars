@@ -50,5 +50,28 @@ namespace TenexCars.DataAccess.Repositories.Implementations
                 return null!;
             }
         }
+
+        public async Task<Subscription> GetSubscriptionForOperator(string operatorId)
+        {
+            var result = await _context.Subscriptions
+                .Include(s => s.Vehicle).Include(s => s.Subscriber)
+                .ThenInclude(sub => sub!.AppUser)
+                .FirstOrDefaultAsync(s => s.OperatorId == operatorId);
+            if (result == null)
+            {
+                return null!;
+            }
+            return result;
+        }
+
+        public async Task<List<Subscription>> GetAllSubscriptionsForOperator(string operatorId)
+        {
+            return await _context.Subscriptions
+                                 .Include(s => s.Subscriber)
+                                 .ThenInclude(sub => sub!.AppUser)
+                                 .Include(s => s.Vehicle)
+                                 .Where(s => s.OperatorId == operatorId)
+                                 .ToListAsync();
+        }
     }
 }
