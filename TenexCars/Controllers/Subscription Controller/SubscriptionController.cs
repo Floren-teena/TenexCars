@@ -4,6 +4,8 @@ using TenexCars.Controllers.Subscriber_Controller;
 using TenexCars.DataAccess.Enums;
 using TenexCars.DataAccess.Models;
 using TenexCars.DataAccess.Repositories.Interfaces;
+using TenexCars.DTOs;
+using TenexCars.Interfaces;
 using TenexCars.Models.ViewModels;
 
 namespace TenexCars.Controllers.Subscription_Controller
@@ -15,20 +17,72 @@ namespace TenexCars.Controllers.Subscription_Controller
         private readonly ISubscriptionRepository _subscriptionRepository;
         private readonly ILogger<SubscriberController> _logger;
         private readonly ISubscriberRepository _subscriberRepository;
+        private readonly IEmailService _emailService;
 
         public SubscriptionController(UserManager<AppUser> userManager, IOperatorRepository operatorRepository, ISubscriptionRepository subscriptionRepository,
-                                      ILogger<SubscriberController> logger, ISubscriberRepository subscriberRepository)
+                                      ILogger<SubscriberController> logger, ISubscriberRepository subscriberRepository, IEmailService emailService)
         {
             _userManager = userManager;
             _operatorRepository = operatorRepository;
             _subscriptionRepository = subscriptionRepository;
             _logger = logger;
             _subscriberRepository = subscriberRepository;
+            _emailService = emailService;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> OperatorSubscribers()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            Operator? existingOperator = null!;
+
+            if (user.Type == "Main_Operator")
+            {
+                existingOperator = await _operatorRepository.GetOperatorByUserId(user.Id);
+                ViewBag.CompanyName = existingOperator!.CompanyName;
+            }
+            else if (user.Type == "Operator_Team_Member")
+            {
+                var operatorMember = await _operatorRepository.GetOperatorMemberByUserId(user.Id);
+                existingOperator = await _operatorRepository.GetOperatorById(operatorMember!.OperatorId!);
+                ViewBag.CompanyName = existingOperator!.CompanyName;
+            }
+            else
+            {
+                return BadRequest("Unauthorized user!.");
+            }
+
+            if (existingOperator == null)
+            {
+                _logger.LogInformation("Operator ID is required.");
+                return BadRequest();
+            }
+
+            var subscriptions = await _subscriptionRepository.GetSubscriptionsByOperatorAsync(existingOperator.Id);
+            if (subscriptions == null || !subscriptions.Any())
+            {
+                return NotFound("No subscriptions found for the operator.");
+            }
+
+
+            foreach (var subscription in subscriptions)
+            {
+                var subscriber = await _subscriberRepository.GetSubscriberByIdAsync(subscription.SubscriberId!);
+                subscription.Subscriber = subscriber;
+            }
+
+
+            var operatorSubscriptionViewModel = new OperatorSubscribersViewModel
+            {
+                Subscriptions = subscriptions
+            };
+
+            return View(operatorSubscriptionViewModel);
         }
 
         [HttpGet]
@@ -128,59 +182,90 @@ namespace TenexCars.Controllers.Subscription_Controller
 
         }
 
-        [HttpGet]
-        public async Task<IActionResult> OperatorSubscribers()
+        [HttpPost]
+        public async Task<IActionResult> Contact(OperatorSubscriptionViewModel operatorSubscriptionViewModel)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            try
             {
-                return Unauthorized();
+                var user = await _userManager.GetUserAsync(User);
+                var existingOperator = await _operatorRepository.GetOperatorByUserId(user!.Id);
+                var subscription = await _subscriptionRepository.GetSubscriptionForOperator(existingOperator!.Id);
+
+                var emailContent = new EmailDto
+                {
+                    To = operatorSubscriptionViewModel.Email,
+                    Subject = operatorSubscriptionViewModel.Subject,
+                    Body = operatorSubscriptionViewModel.Body
+                };
+
+                await _emailService.ContactApplicantEmailAsync(emailContent);
+                TempData["success"] = "Email sent successfully!";
+                return RedirectToAction("OperatorSubscription");
             }
-
-            Operator? existingOperator = null!;
-
-            if (user.Type == "Main_Operator")
+            catch (Exception ex)
             {
-                existingOperator = await _operatorRepository.GetOperatorByUserId(user.Id);
-                ViewBag.CompanyName = existingOperator!.CompanyName;
+                _logger.LogError(ex.Message, "Something went wrong when sending email");
+                TempData["error"] = "Something went wrong when sending email. Contact Support!";
+                return RedirectToAction("OperatorSubscription");
             }
-            else if (user.Type == "Operator_Team_Member")
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignVehicle()
+        {
+            if (!ModelState.IsValid)
             {
-                var operatorMember = await _operatorRepository.GetOperatorMemberByUserId(user.Id);
-                existingOperator = await _operatorRepository.GetOperatorById(operatorMember!.OperatorId!);
-                ViewBag.CompanyName = existingOperator!.CompanyName;
+                TempData["error"] = "Invalid request!";
+                return RedirectToAction("OperatorSubscription");
             }
-            else
+            try
             {
-                return BadRequest("Unauthorized user!.");
+                var user = await _userManager.GetUserAsync(User);
+                var existingOperator = await _operatorRepository.GetOperatorByUserId(user!.Id);
+                var subscription = await _subscriptionRepository.GetSubscriptionForOperator(existingOperator!.Id);
+                if (subscription is not null && subscription.SubscriptionStatus == SubscriptionStatus.Awaiting)
+                {
+                    subscription.SubscriptionStatus = SubscriptionStatus.Active;
+                    await _subscriptionRepository.UpdateSubscription(subscription);
+
+                    /*subscription.SubscriptionStatus = SubscriptionStatus.Assigned;
+                    await _subscriptionRepository.UpdateSubscription(subscription);*/
+
+                    TempData["success"] = "Vehicle assigned successfully!";
+
+                    var currentSub = subscription.Subscriber;
+                    _logger.LogInformation("Preparing to send email to {Email}", currentSub!.Email);
+
+                    var emailBody = $"<div style=\"color: black;\">" +
+                                    $"Hello {currentSub.FirstName},<br><br>" +
+                                    $"You have successfully subscribed to <b>{subscription.Operator!.CompanyName}</b> on  Tenex cars." +
+                                    $"Your <b>{subscription.Vehicle!.Make} {subscription.Vehicle.Model}</b> is on its way to you.<br>" +
+                                    "We hope you enjoy the ride!" +
+                                    "<br><br>" +
+                                    "Best regards,<br>" +
+                                    "The Tenex Team" +
+                                    "</div>";
+
+                    var emailContent = new EmailDto
+                    {
+                        To = currentSub.Email,
+                        Subject = "Congratulations! Your Vehicle is on its way to you",
+                        Body = emailBody
+                    };
+
+                    await _emailService.ApproveSubscriptionEmail(emailContent);
+                    _logger.LogInformation("Email sent successfully to {Email}", currentSub.Email);
+                    return RedirectToAction("OperatorSubscription");
+                }
+                TempData["error"] = "You can't assign this car yet!";
+                return RedirectToAction("OperatorSubscription");
             }
-
-            if (existingOperator == null)
+            catch (Exception ex)
             {
-                _logger.LogInformation("Operator ID is required.");
-                return BadRequest();
+                _logger.LogError(ex, "Something went wrong while assigning vehicle");
+                TempData["error"] = "Something went wrong while assigning vehicle";
+                return RedirectToAction("OperatorSubscription");
             }
-
-            var subscriptions = await _subscriptionRepository.GetSubscriptionsByOperatorAsync(existingOperator.Id);
-            if (subscriptions == null || !subscriptions.Any())
-            {
-                return NotFound("No subscriptions found for the operator.");
-            }
-
-
-            foreach (var subscription in subscriptions)
-            {
-                var subscriber = await _subscriberRepository.GetSubscriberByIdAsync(subscription.SubscriberId!);
-                subscription.Subscriber = subscriber;
-            }
-
-
-            var operatorSubscriptionViewModel = new OperatorSubscribersViewModel
-            {
-                Subscriptions = subscriptions
-            };
-
-            return View(operatorSubscriptionViewModel);
         }
     }
 }
