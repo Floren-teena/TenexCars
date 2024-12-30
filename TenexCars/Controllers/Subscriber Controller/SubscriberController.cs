@@ -375,5 +375,21 @@ namespace TenexCars.Controllers.Subscriber_Controller
 
             return View(viewModel);
         }
+
+        [HttpPost]
+        public IActionResult Profile(string subscriptionId)
+        {
+            var result = _subscriptionRepository.CancelSubscription(subscriptionId);
+
+            if (!result)
+            {
+                TempData["Failure"] = "Unable to cancel subscription";
+
+                return RedirectToAction("Profile");
+            }
+            TempData["Success"] = "Cancel Subscription Successful";
+
+            return RedirectToAction("Profile");
+        }
     }
 }

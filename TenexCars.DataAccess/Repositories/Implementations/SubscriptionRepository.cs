@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TenexCars.DataAccess.Enums;
 using TenexCars.DataAccess.Models;
 using TenexCars.DataAccess.Repositories.Interfaces;
 
@@ -79,6 +80,21 @@ namespace TenexCars.DataAccess.Repositories.Implementations
             return await _context.Subscriptions
                 .Where(x => x.OperatorId == operatorId)
                 .ToListAsync();
+        }
+
+        public bool CancelSubscription(string subscriptionId)
+        {
+            var activeSubscription = _context.Subscriptions.FirstOrDefault(sub => sub.Id == subscriptionId && sub.SubscriptionStatus == SubscriptionStatus.Active);
+
+            if (activeSubscription != null)
+            {
+                activeSubscription.SubscriptionStatus = SubscriptionStatus.Cancelled;
+                activeSubscription.TermEnd = DateTime.UtcNow;
+                _context.Subscriptions.Update(activeSubscription);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
         }
     }
 }
