@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TenexCars.Controllers.Subscriber_Controller;
+using TenexCars.DataAccess.Enums;
 using TenexCars.DataAccess.Models;
 using TenexCars.DataAccess.Repositories.Interfaces;
 using TenexCars.Models.ViewModels;
@@ -96,6 +97,35 @@ namespace TenexCars.Controllers.Subscription_Controller
 
 
             return View(subscriptionForOperator);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Approve()
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = "Invalid request!";
+                return RedirectToAction("OperatorSubscription");
+            }
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var existingOperator = await _operatorRepository.GetOperatorByUserId(user!.Id);
+                var subscription = await _subscriptionRepository.GetSubscriptionForOperator(existingOperator!.Id);
+
+                subscription.SubscriptionStatus = SubscriptionStatus.Approve;
+                await _subscriptionRepository.UpdateSubscription(subscription);
+
+                TempData["success"] = "Subscription approved successfully!";
+                return RedirectToAction("OperatorSubscription");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, "Something went wrong while approving subscription");
+                TempData["error"] = "Something went wrong while approving subscription";
+                return RedirectToAction("OperatorSubscription");
+            }
+
         }
 
         [HttpGet]

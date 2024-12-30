@@ -82,7 +82,7 @@ namespace TenexCars.DataAccess.Repositories.Implementations
             }
             if (query.CompanyName != null)
             {
-                vehicles = vehicles.Where(v => v.Operator.CompanyName == query.CompanyName);
+                vehicles = vehicles.Where(v => v.Operator!.CompanyName == query.CompanyName);
             }
 
             return await vehicles.ToListAsync();
@@ -102,6 +102,55 @@ namespace TenexCars.DataAccess.Repositories.Implementations
         public bool VehicleExists(string id)
         {
             return _context.Vehicles.Any(v => v.Id == id);
+        }
+
+        public async Task<List<Vehicle>> GetAllVehicleByOperator(string operatorId)
+        {
+            var vehicles = _context.Vehicles.Include(v => v.Operator).Where(v => v.OperatorId == operatorId).ToList();
+            return vehicles;
+        }
+
+        public async Task<List<Vehicle>> GetAllVehiclesByOperator(string operatorId)
+        {
+            var vehicles = _context.Vehicles.Include(v => v.Operator).Where(v => v.OperatorId == operatorId).ToList();
+            var availableVehicles = new List<Vehicle>();
+            foreach (var vehicle in vehicles)
+            {
+                var subscription = await _context.Subscriptions
+                             .Where(s => s.VehicleId == vehicle.Id && s.SubscriptionStatus == "Active")
+                             .FirstOrDefaultAsync();
+
+                if (subscription == null)
+                {
+                    availableVehicles.Add(vehicle);
+                }
+            }
+
+            return availableVehicles;
+        }
+
+        public async Task<List<Vehicle>> GetAllVehiclesByOperatorFilter(string operatorId, QueryObject query)
+        {
+            var vehicles = _context.Vehicles.AsQueryable();
+            if (!string.IsNullOrEmpty(operatorId))
+            {
+                vehicles = vehicles.Where(v => v.OperatorId == operatorId);
+            }
+
+            if (!string.IsNullOrEmpty(query.CarModel))
+            {
+                vehicles = vehicles.Where(v => v.Model == query.CarModel);
+            }
+            if (!string.IsNullOrEmpty(query.CarMake))
+            {
+                vehicles = vehicles.Where(v => v.Make == query.CarMake);
+            }
+            if (query.CarType.HasValue)
+            {
+                vehicles = vehicles.Where(v => v.Cartype == query.CarType.Value);
+            }
+
+            return await vehicles.ToListAsync();
         }
     }
 }

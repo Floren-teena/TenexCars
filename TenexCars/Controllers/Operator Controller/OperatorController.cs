@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TenexCars.DataAccess.Enums;
 using TenexCars.DataAccess.Models;
 using TenexCars.DataAccess.Repositories.Implementations;
 using TenexCars.DataAccess.Repositories.Interfaces;
@@ -588,6 +589,48 @@ namespace TenexCars.Controllers.Operator_Controller
                 }
             }
             return View(vehicleViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Home()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var existingOperator = await _operatorRepository.GetOperatorByUserId(user!.Id);
+            var vehicles = await _vehicleRepository.GetAllVehicleByOperator(existingOperator!.Id);
+            var operatorCompanyName = vehicles.FirstOrDefault()?.Operator?.CompanyName;
+            var type = Enum.GetValues(typeof(CarType)).Cast<CarType>();
+            var makes = vehicles.Select(x => x.Make).Distinct().ToList();
+            var models = vehicles.Select(x => x.Model).Distinct().ToList();
+
+
+            ViewBag.OperatorCompanyName = operatorCompanyName;
+            ViewBag.CarType = type;
+            ViewBag.Make = makes;
+            ViewBag.CarModels = models;
+            ViewBag.Vehicle = vehicles;
+
+            return View(vehicles);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Home(QueryObject query)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var existingOperator = await _operatorRepository.GetOperatorByUserId(user!.Id);
+            var vehicles = await _vehicleRepository.GetAllVehiclesByOperator(existingOperator!.Id);
+            var filteredVehicles = await _vehicleRepository.GetAllVehiclesByOperatorFilter(existingOperator.Id, query);
+            var operatorCompanyName = vehicles.FirstOrDefault()?.Operator?.CompanyName;
+            var type = Enum.GetValues(typeof(CarType)).Cast<CarType>();
+            var makes = vehicles.Select(x => x.Make).Distinct().ToList();
+            var models = vehicles.Select(x => x.Model).Distinct().ToList();
+
+            ViewBag.OperatorCompanyName = operatorCompanyName;
+            ViewBag.CarType = type;
+            ViewBag.Make = makes;
+            ViewBag.CarModels = models;
+            ViewBag.Vehicle = filteredVehicles;
+
+            return View(filteredVehicles);
         }
     }
 }
