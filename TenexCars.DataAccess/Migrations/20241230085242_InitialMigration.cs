@@ -211,7 +211,7 @@ namespace TenexCars.DataAccess.Migrations
                     State = table.Column<int>(type: "integer", nullable: false),
                     City = table.Column<string>(type: "text", nullable: true),
                     ZipCode = table.Column<string>(type: "text", nullable: true),
-                    DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateOfBirth = table.Column<DateOnly>(type: "date", nullable: true),
                     AppUserId = table.Column<string>(type: "text", nullable: true),
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),

@@ -13,7 +13,7 @@ namespace TenexCars.DataAccess.Repositories.Implementations
     {
         private readonly ApplicationDbContext _context;
 
-        public SubscriptionRepository(ApplicationDbContext context) 
+        public SubscriptionRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -28,6 +28,27 @@ namespace TenexCars.DataAccess.Repositories.Implementations
         public async Task<Subscription?> GetSubscriptionForVehicle(string vehicleId)
         {
             return await _context.Subscriptions.FirstOrDefaultAsync(s => s.VehicleId == vehicleId);
+        }
+
+        public async Task<Subscription?> GetSubscriptionBySubcriber(string Id)
+        {
+            return await _context.Subscriptions.FirstOrDefaultAsync(s => s.SubscriberId == Id);
+        }
+
+        public async Task<Subscription> UpdateSubscription(Subscription getExistingSubscription)
+        {
+            var isSubscriber = await _context.Subscriptions.FindAsync(getExistingSubscription.Id);
+
+            if (isSubscriber != null)
+            {
+                _context.Subscriptions.Update(isSubscriber);
+                await _context.SaveChangesAsync();
+                return isSubscriber;
+            }
+            else
+            {
+                return null!;
+            }
         }
     }
 }

@@ -9,19 +9,19 @@ namespace TenexCars.Models.ViewModels
         public string? AppUserId { get; set; }
         public string? FirstName { get; set; }
 
-        [Required]
-        public DateTime? DateOfBirth { get; set; }
+        [Required(ErrorMessage = "This field is required")]
+        public DateOnly? DateOfBirth { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "This field is required")]
         public IFormFile? DriversLicenseFront { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "This field is required")]
         public IFormFile? DriversLicenseBack { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "This field is required")]
         public string? SubscriptionDuration { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "This field is required")]
         public string? PickupDate { get; set; }
         public string? VehicleName { get; set; }
         public bool? AdditionalDrivers { get; set; }

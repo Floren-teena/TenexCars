@@ -400,8 +400,8 @@ namespace TenexCars.DataAccess.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly?>("DateOfBirth")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()

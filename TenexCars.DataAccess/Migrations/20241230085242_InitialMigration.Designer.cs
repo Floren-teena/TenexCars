@@ -12,7 +12,7 @@ using TenexCars.DataAccess;
 namespace TenexCars.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241026164222_InitialMigration")]
+    [Migration("20241230085242_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -403,8 +403,8 @@ namespace TenexCars.DataAccess.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly?>("DateOfBirth")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()

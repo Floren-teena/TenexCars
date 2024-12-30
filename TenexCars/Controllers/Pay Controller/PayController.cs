@@ -130,7 +130,7 @@ namespace TenexCars.Controllers.Pay_Controller
                     }
                     else
                     {
-                        ViewData["error"] = "Transaction not found in database.";
+                        ViewData["error"] = "Transaction not found.";
                     }
                 }
                 else

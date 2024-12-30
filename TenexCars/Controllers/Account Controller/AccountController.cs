@@ -16,15 +16,17 @@ namespace TenexCars.Controllers
         private readonly ILogger<AccountController> _logger;
         private readonly ISubscriberRepository _subscriberRepository;
         private readonly IAccountRepository _accountRepository;
+        private readonly ISubscriptionRepository _subscriptionRepository;
 
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<AccountController> logger, 
-                                ISubscriberRepository subscriberRepository, IAccountRepository accountRepository)
+                                ISubscriberRepository subscriberRepository, IAccountRepository accountRepository, ISubscriptionRepository subscriptionRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _subscriberRepository = subscriberRepository;
             _accountRepository = accountRepository;
+            _subscriptionRepository = subscriptionRepository;
         }
 
         public IActionResult Index()
@@ -69,12 +71,12 @@ namespace TenexCars.Controllers
                 {
                     var subscriber = await _subscriberRepository.GetSubscriberByUserId(user.Id);
 
-                    /*var subscription = subscriber is not null ? await _subscriptionRepository.GetSubscriptionBySubcriber(subscriber.Id) : null;
+                    var subscription = subscriber is not null ? await _subscriptionRepository.GetSubscriptionBySubcriber(subscriber.Id) : null;
                     if (subscription is not null && subscription.SubscriptionStatus == SubscriptionStatus.DLNeeded)
                     {
                         _logger.LogInformation("Redirecting to Complete Reservation Page ...");
                         return RedirectToAction("CompleteReservation", "Subscriber");
-                    }*/
+                    }
                     _logger.LogInformation("Redirecting to Subscriber page");
                     return RedirectToAction("Profile", "Subscriber");
                 }
@@ -88,11 +90,6 @@ namespace TenexCars.Controllers
                     _logger.LogInformation("Redirecting to Operator page");
                     return RedirectToAction("OperatorSubscription", "Subscription");
                 }
-                else if (roles.Contains("Tenex_Admin"))
-                {
-                    _logger.LogInformation("Redirecting to Admin page");
-                    return RedirectToAction("Admin", "Admin");
-                }
                 else
                 {
                     _logger.LogWarning("User does not have the required role");
@@ -105,6 +102,14 @@ namespace TenexCars.Controllers
             _logger.LogWarning("Invalid login attempt for user: {Email}", loginVm.Username);
             TempData["Error"] = "Invalid credentials";
             return View(loginVm);
+        }
+
+        [HttpGet]
+        // [ValidateAntiForgeryToken]
+        public IActionResult Logout()
+        {
+            _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]

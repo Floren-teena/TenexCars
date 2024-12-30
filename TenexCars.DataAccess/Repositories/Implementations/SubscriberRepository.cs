@@ -35,5 +35,30 @@ namespace TenexCars.DataAccess.Repositories.Implementations
             await _context.SaveChangesAsync();
             return newSubscriber.Entity;
         }
+
+        public async Task<Subscriber> UpdateSubscriberAsync(Subscriber subscriber)
+        {
+            var isSubscriber = await _context.Subscribers.FindAsync(subscriber.Id);
+
+            if (isSubscriber != null)
+            {
+                _context.Subscribers.Update(isSubscriber);
+                await _context.SaveChangesAsync();
+                return isSubscriber;
+            }
+            else
+            {
+                return null!;
+            }
+        }
+
+        public int CalculateAge(DateOnly birthDate)
+        {
+            var today = DateOnly.FromDateTime(DateTime.Today); // Get today's date as DateOnly
+            var age = today.Year - birthDate.Year;
+            if (birthDate > today.AddYears(-age)) age--; // Adjust for the current year's birth date not yet reached
+            return age;
+        }
+
     }
 }

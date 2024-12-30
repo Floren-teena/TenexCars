@@ -55,6 +55,7 @@ try
     builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
     builder.Services.AddScoped<IVehicleRequestRepository, VehicleRequestRepository>();
     builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+    builder.Services.AddScoped<ICoSubscriberRepository, CoSubscriberRepository>();
     builder.Services.AddTransient<SeedData>();
 
     builder.Services.AddCors(options =>
