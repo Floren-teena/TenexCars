@@ -15,5 +15,6 @@ namespace TenexCars.DataAccess.Repositories.Interfaces
         Task<Subscription> UpdateSubscription(Subscription getExistingSubscription);
         Task<Subscription> GetSubscriptionForOperator(string operatorId);
         Task<List<Subscription>> GetAllSubscriptionsForOperator(string operatorId);
+        Task<IEnumerable<Subscription>> GetSubscriptionsByOperatorAsync(string operatorId);
     }
 }

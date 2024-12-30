@@ -13,14 +13,16 @@ namespace TenexCars.Controllers.Subscription_Controller
         private readonly IOperatorRepository _operatorRepository;
         private readonly ISubscriptionRepository _subscriptionRepository;
         private readonly ILogger<SubscriberController> _logger;
+        private readonly ISubscriberRepository _subscriberRepository;
 
         public SubscriptionController(UserManager<AppUser> userManager, IOperatorRepository operatorRepository, ISubscriptionRepository subscriptionRepository,
-                                      ILogger<SubscriberController> logger)
+                                      ILogger<SubscriberController> logger, ISubscriberRepository subscriberRepository)
         {
             _userManager = userManager;
             _operatorRepository = operatorRepository;
             _subscriptionRepository = subscriptionRepository;
             _logger = logger;
+            _subscriberRepository = subscriberRepository;
         }
 
         public IActionResult Index()
@@ -94,6 +96,61 @@ namespace TenexCars.Controllers.Subscription_Controller
 
 
             return View(subscriptionForOperator);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> OperatorSubscribers()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            Operator? existingOperator = null!;
+
+            if (user.Type == "Main_Operator")
+            {
+                existingOperator = await _operatorRepository.GetOperatorByUserId(user.Id);
+                ViewBag.CompanyName = existingOperator!.CompanyName;
+            }
+            else if (user.Type == "Operator_Team_Member")
+            {
+                var operatorMember = await _operatorRepository.GetOperatorMemberByUserId(user.Id);
+                existingOperator = await _operatorRepository.GetOperatorById(operatorMember!.OperatorId!);
+                ViewBag.CompanyName = existingOperator!.CompanyName;
+            }
+            else
+            {
+                return BadRequest("Unauthorized user!.");
+            }
+
+            if (existingOperator == null)
+            {
+                _logger.LogInformation("Operator ID is required.");
+                return BadRequest();
+            }
+
+            var subscriptions = await _subscriptionRepository.GetSubscriptionsByOperatorAsync(existingOperator.Id);
+            if (subscriptions == null || !subscriptions.Any())
+            {
+                return NotFound("No subscriptions found for the operator.");
+            }
+
+
+            foreach (var subscription in subscriptions)
+            {
+                var subscriber = await _subscriberRepository.GetSubscriberByIdAsync(subscription.SubscriberId!);
+                subscription.Subscriber = subscriber;
+            }
+
+
+            var operatorSubscriptionViewModel = new OperatorSubscribersViewModel
+            {
+                Subscriptions = subscriptions
+            };
+
+            return View(operatorSubscriptionViewModel);
         }
     }
 }

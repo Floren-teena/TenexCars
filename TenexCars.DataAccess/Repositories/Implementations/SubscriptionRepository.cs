@@ -73,5 +73,12 @@ namespace TenexCars.DataAccess.Repositories.Implementations
                                  .Where(s => s.OperatorId == operatorId)
                                  .ToListAsync();
         }
+
+        public async Task<IEnumerable<Subscription>> GetSubscriptionsByOperatorAsync(string operatorId)
+        {
+            return await _context.Subscriptions
+                .Where(x => x.OperatorId == operatorId)
+                .ToListAsync();
+        }
     }
 }
