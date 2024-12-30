@@ -445,5 +445,20 @@ namespace TenexCars.Controllers.Subscriber_Controller
             TempData["success"] = "Subscription cancelled successfully.";
             return RedirectToAction("ActiveSubscription");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> NewSubscription()
+        {
+            var allOperators = await _operatorRepository.GetAllOperatorsAsync();
+
+            var viewModel = allOperators.Select(op => new NewSubscriptionViewModel
+            {
+                OperatorId = op.Id,
+                CompanyName = op.CompanyName,
+                OperatorLogo = op.CompanyLogo
+            }).ToList();
+            ViewBag.Operators = viewModel;
+            return PartialView("_NewSubscriptionPartial", viewModel);
+        }
     }
 }

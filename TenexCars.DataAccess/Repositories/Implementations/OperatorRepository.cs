@@ -112,5 +112,10 @@ namespace TenexCars.DataAccess.Repositories.Implementations
             }
         }
 
+        public async Task<IEnumerable<Operator>> GetAllOperatorsAsync()
+        {
+            var operators = await _context.Operators.ToListAsync();
+            return operators;
+        }
     }
 }

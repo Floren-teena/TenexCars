@@ -634,6 +634,52 @@ namespace TenexCars.Controllers.Operator_Controller
         }
 
         [HttpGet]
+        [Route("/Operator/OperatorVehicles/{operatorId}")]
+        public async Task<IActionResult> OperatorVehicles(string operatorId)
+        {
+            var vehicles = await _vehicleRepository.GetAllVehiclesByOperator(operatorId);
+            var vehiclesWithoutActiveSubscriptions = await _vehicleRepository.GetAllInActiveVehicles(vehicles);
+
+            var operatorCompanyName = vehiclesWithoutActiveSubscriptions.FirstOrDefault()?.Operator?.CompanyName;
+            var type = Enum.GetValues(typeof(CarType)).Cast<CarType>();
+            var makes = vehiclesWithoutActiveSubscriptions.Select(x => x.Make).Distinct().ToList();
+            var models = vehiclesWithoutActiveSubscriptions.Select(x => x.Model).Distinct().ToList();
+
+            ViewBag.OperatorCompanyName = operatorCompanyName;
+            ViewBag.CarType = type;
+            ViewBag.Make = makes;
+            ViewBag.CarModels = models;
+            ViewBag.Vehicle = vehicles;
+
+            return View(vehiclesWithoutActiveSubscriptions);
+        }
+
+        [HttpPost]
+        [Route("/Operator/OperatorVehicles/{operatorId}")]
+        public async Task<IActionResult> OperatorVehicles(string operatorId, QueryObject query)
+        {
+            var allVehicles = await _vehicleRepository.GetAllVehiclesByOperator(operatorId);
+            var vehicles = await _vehicleRepository.GetAllVehiclesByOperatorFilter(operatorId, query);
+            var type = Enum.GetValues(typeof(CarType)).Cast<CarType>();
+            var operatorCompanyName = allVehicles.FirstOrDefault()?.Operator?.CompanyName;
+            var makes = allVehicles.Select(x => x.Make).Distinct().ToList();
+            var models = allVehicles.Select(x => x.Model).Distinct().ToList();
+
+            ViewBag.CarType = type;
+            ViewBag.OperatorCompanyName = operatorCompanyName;
+            ViewBag.Make = makes;
+            ViewBag.CarModels = models;
+            ViewBag.Vehicle = vehicles;
+
+            ViewBag.SelectedCarType = query.CarType;
+            ViewBag.SelectedCarMake = query.CarMake;
+            ViewBag.SelectedCarModel = query.CarModel;
+            ViewBag.SelectedCompanyName = query.CompanyName;
+
+            return View(vehicles);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> OperatorProfileSettings()
         {
             var user = await _userManager.GetUserAsync(User);
