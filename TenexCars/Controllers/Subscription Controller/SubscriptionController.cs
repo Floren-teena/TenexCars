@@ -42,6 +42,7 @@ namespace TenexCars.Controllers.Subscription_Controller
             if (user.Type == "Main_Operator")
             {
                 existingOperator = await _operatorRepository.GetOperatorByUserId(user.Id);
+                ViewBag.CompanyName = existingOperator!.CompanyName;
             }
             else if (user.Type == "Operator_Team_Member")
             {
