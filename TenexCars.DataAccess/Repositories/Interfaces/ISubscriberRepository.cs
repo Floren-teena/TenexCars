@@ -13,6 +13,8 @@ namespace TenexCars.DataAccess.Repositories.Interfaces
         Task<Subscriber> AddSubscriberAsync(Subscriber subscriber);
         Task<Subscriber?> GetSubscriberByIdAsync(string Id);
         Task<Subscriber> UpdateSubscriberAsync(Subscriber subscriber);
+        Subscriber? GetSubscriberById(string subscriberId);
+        List<Subscription> GetSubscriptionsBySubscriberId(string subscriberId);
         int CalculateAge(DateOnly birthDate);
     }
 }

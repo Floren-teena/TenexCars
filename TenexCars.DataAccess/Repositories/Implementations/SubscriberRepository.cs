@@ -52,6 +52,23 @@ namespace TenexCars.DataAccess.Repositories.Implementations
             }
         }
 
+        public Subscriber? GetSubscriberById(string subscriberId)
+        {
+            return _context.Subscribers
+                           .Include(s => s.Transactions)
+                           .Include(s => s.AppUser)
+                           .FirstOrDefault(s => s.AppUserId == subscriberId);
+        }
+
+        public List<Subscription> GetSubscriptionsBySubscriberId(string subscriberId)
+        {
+            return _context.Subscriptions
+                           .Where(sub => sub.SubscriberId == subscriberId)
+                           .Include(s => s.Operator)
+                           .Include(s => s.Vehicle)
+                           .ToList();
+        }
+
         public int CalculateAge(DateOnly birthDate)
         {
             var today = DateOnly.FromDateTime(DateTime.Today); // Get today's date as DateOnly
