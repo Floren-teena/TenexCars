@@ -391,5 +391,25 @@ namespace TenexCars.Controllers.Subscriber_Controller
 
             return RedirectToAction("Profile");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SubscriptionHistory()
+        {
+            var user = await _manager.GetUserAsync(User);
+            var subscriber = _subscriberRepository.GetSubscriberById(user!.Id);
+
+            if (subscriber == null)
+            {
+                return NotFound("Subscriber not found.");
+            }
+
+            var viewModel = new SubscriberProfileViewModel
+            {
+                Subscriber = subscriber,
+                Subscriptions = _subscriberRepository.GetSubscriptionsBySubscriberId(subscriber.Id)
+            };
+
+            return View(viewModel);
+        }
     }
 }
