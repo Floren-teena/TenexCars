@@ -632,5 +632,48 @@ namespace TenexCars.Controllers.Operator_Controller
 
             return View(filteredVehicles);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> OperatorProfileSettings()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var existingOperator = await _operatorRepository.GetOperatorByUserId(user!.Id);
+
+            var operatorDetails = new OperatorProfileSettingsViewModel
+            {
+                Name = $"{existingOperator!.FirstName} {existingOperator.LastName}",
+                Email = existingOperator.Email
+            };
+
+            return View(operatorDetails);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangePassword(OperatorProfileSettingsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    _logger.LogError("User may not exist");
+                    TempData["error"] = "User may not exist";
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword!, model.NewPassword!);
+                if (result.Succeeded)
+                {
+                    await _userManager.UpdateSecurityStampAsync(user);
+                    _logger.LogInformation("Password changed successfully!!!");
+                    TempData["success"] = "Password changed successfully!!!";
+                    return RedirectToAction("OperatorProfileSettings");
+                }
+            }
+            _logger.LogError("Ensure the passwords match and try again");
+            TempData["error"] = "Ensure the passwords match and try again";
+            return RedirectToAction("OperatorProfileSettings", model);
+        }
     }
 }
