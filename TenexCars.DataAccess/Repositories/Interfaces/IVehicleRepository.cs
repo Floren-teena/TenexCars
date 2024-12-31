@@ -21,5 +21,6 @@ namespace TenexCars.DataAccess.Repositories.Interfaces
         Task<List<Vehicle>> GetAllVehicleByOperator(string operatorId);
         Task<List<Vehicle>> GetAllVehiclesByOperator(string operatorId);
         Task<List<Vehicle>> GetAllVehiclesByOperatorFilter(string operatorId, QueryObject query);
+        Task<IEnumerable<Vehicle?>> GetTopUniqueVehiclesAsync(int count = 8);
     }
 }

@@ -152,5 +152,14 @@ namespace TenexCars.DataAccess.Repositories.Implementations
 
             return await vehicles.ToListAsync();
         }
+
+        public async Task<IEnumerable<Vehicle?>> GetTopUniqueVehiclesAsync(int count = 8)
+        {
+            return await _context.Vehicles
+                .GroupBy(v => new { v.Make, v.Model })
+                .Select(g => g.FirstOrDefault())
+                .Take(count)
+                .ToListAsync();
+        }
     }
 }
