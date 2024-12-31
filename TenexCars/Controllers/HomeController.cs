@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TenexCars.DataAccess.Models;
 using TenexCars.DataAccess.Repositories.Interfaces;
+using TenexCars.DTOs;
 using TenexCars.Interfaces;
 using TenexCars.Models;
 
@@ -33,15 +34,82 @@ namespace TenexCars.Controllers
             return View(topUniqueVehicles);
         }
 
-        public IActionResult Privacy()
+        /*public IActionResult Services()
+        {
+            return View();
+        }*/
+
+        /*public IActionResult Privacy()
+        {
+            return View();
+        }*/
+        public IActionResult Login()
         {
             return View();
         }
+
+        public IActionResult Operator()
+        {
+            return View();
+        }
+
+        public IActionResult Subscriber()
+        {
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        /*[HttpPost]
+        public async Task<IActionResult> Contact(ContactPageViewModel contactPageViewModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(contactPageViewModel);
+                }
+
+                var emailContent = new EmailDto
+                {
+
+                    From = contactPageViewModel.Email,
+                    Subject = contactPageViewModel.Subject,
+                    Body = $"Name: {contactPageViewModel.FullName}\n\n Message:\n{contactPageViewModel.Body}"
+                };
+
+                await _emailService.SendEmailToCompany(emailContent);
+                TempData["success"] = "Email sent successfully!";
+                return View(contactPageViewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, "Something went wrong when sending email");
+                TempData["error"] = "Something went wrong when sending email";
+                return View(contactPageViewModel);
+            }
+
+        }*/
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+        public IActionResult Help()
+        {
+            return View();
+        }
+        public IActionResult Testimonies()
+        {
+            return View();
         }
     }
 }
