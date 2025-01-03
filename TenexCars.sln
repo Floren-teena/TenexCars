@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TenexCars", "TenexCars\TenexCars.csproj", "{70AF5E7C-4A1D-4C27-93BD-1238314B3B9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TenexCars", "TenexCars\TenexCars.csproj", "{70AF5E7C-4A1D-4C27-93BD-1238314B3B9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TenexCars.DataAccess", "TenexCars.DataAccess\TenexCars.DataAccess.csproj", "{C619CE3A-FEBD-45CE-8B8C-758BDE7F8B39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TenexCars.DataAccess", "TenexCars.DataAccess\TenexCars.DataAccess.csproj", "{C619CE3A-FEBD-45CE-8B8C-758BDE7F8B39}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{591B4F57-AAC6-4403-AD70-F6FD75C299FD}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
